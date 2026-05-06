@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calibración Cuentarrevoluciones — IRB 1100</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.10);
+    --border-md: rgba(0,0,0,0.18);
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --purple-light: #EEEDFE;
+    --purple-mid: #AFA9EC;
+    --purple-dark: #3C3489;
+    --teal-light: #E1F5EE;
+    --teal-mid: #5DCAA5;
+    --teal-dark: #085041;
+    --amber-light: #FAEEDA;
+    --amber-mid: #FAC775;
+    --amber-dark: #412402;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --surface: #242424;
+      --border: rgba(255,255,255,0.10);
+      --border-md: rgba(255,255,255,0.18);
+      --text: #f0ede8;
+      --text-muted: #9a9a9a;
+      --purple-light: #26215C;
+      --purple-mid: #534AB7;
+      --purple-dark: #CECBF6;
+      --teal-light: #04342C;
+      --teal-mid: #1D9E75;
+      --teal-dark: #9FE1CB;
+      --amber-light: #412402;
+      --amber-mid: #BA7517;
+      --amber-dark: #FAC775;
+    }
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  header { margin-bottom: 2rem; }
+  .label { font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
+  h1 { font-size: 26px; font-weight: normal; color: var(--text); line-height: 1.3; margin-bottom: 0.25rem; }
+  .subtitle { font-size: 14px; color: var(--text-muted); font-style: italic; }
+  .progress-bar { display: flex; gap: 6px; margin-bottom: 1.75rem; }
+  .pb-step { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+  .pb-step.done { background: var(--teal-mid); }
+  .pb-step.active { background: var(--purple-mid); }
+  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; }
+  .step-title { font-size: 20px; font-weight: normal; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+  .step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--purple-light); border: 0.5px solid var(--purple-mid); display: flex; align-items: center; justify-content: center; font-size: 14px; font-family: 'Courier New', monospace; color: var(--purple-dark); flex-shrink: 0; }
+  .explanation { font-size: 15px; color: var(--text); line-height: 1.75; margin-bottom: 1.25rem; font-family: 'Georgia', serif; }
+  .analogy-box { border-left: 3px solid var(--purple-mid); padding: 0.75rem 1rem; margin-bottom: 1.25rem; background: var(--purple-light); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  .analogy-box p { font-size: 14px; color: var(--text); line-height: 1.65; font-style: italic; }
+  .analogy-box strong { font-style: normal; color: var(--purple-dark); }
+  .key-box { border: 0.5px solid var(--teal-mid); background: var(--teal-light); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .key-box .box-label { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 5px; }
+  .key-box p { font-size: 14px; color: var(--teal-dark); line-height: 1.65; }
+  .warn-box { border: 0.5px solid var(--amber-mid); background: var(--amber-light); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .warn-box .box-label { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-dark); margin-bottom: 5px; }
+  .warn-box p { font-size: 14px; color: var(--amber-dark); line-height: 1.65; }
+  .mini-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+  .mini-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); background: var(--bg); border: 0.5px solid var(--border); }
+  .mini-step-num { font-family: 'Courier New', monospace; font-size: 12px; color: var(--text-muted); min-width: 18px; padding-top: 1px; }
+  .mini-step-text { font-size: 14px; color: var(--text); line-height: 1.55; }
+  .checklist { list-style: none; margin-bottom: 1.25rem; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text); padding: 7px 0; border-bottom: 0.5px solid var(--border); line-height: 1.5; }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { width: 18px; height: 18px; border-radius: 50%; background: var(--teal-light); border: 0.5px solid var(--teal-mid); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--teal-dark); }
+  .actions { margin-top: 1.25rem; }
+  .ask-btn { font-family: 'Courier New', monospace; font-size: 13px; padding: 8px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--purple-mid); background: var(--purple-light); color: var(--purple-dark); cursor: pointer; transition: opacity 0.2s; }
+  .ask-btn:hover { opacity: 0.8; }
+  .nav { display: flex; gap: 8px; align-items: center; margin-top: 1rem; }
+  .nav-label { font-size: 13px; color: var(--text-muted); flex: 1; text-align: center; font-family: 'Courier New', monospace; }
+  .nav-btn { font-family: 'Courier New', monospace; font-size: 13px; padding: 8px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border-md); background: transparent; color: var(--text); cursor: pointer; transition: background 0.2s; }
+  .nav-btn:hover { background: var(--bg); }
+  .nav-btn.primary { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple-dark); }
+  .nav-btn.primary:hover { opacity: 0.85; }
+  footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <p class="label">Tecnicatura en Robótica Avanzada — Nivel III</p>
+    <h1>Calibración Cuentarrevoluciones<br>IRB 1100</h1>
+    <p class="subtitle">Resumen interactivo de estudio — Federico Pinna, 2026</p>
+  </header>
+
+  <div class="progress-bar" id="pbar"></div>
+  <div id="content"></div>
+
+  <footer>
+    <span>UPrO — Robótica Avanzada</span>
+    <span>Generado para estudio</span>
+  </footer>
+</div>
+
+<script>
+const steps = [
+  {
+    title: "¿Por qué existe este problema?",
+    icon: "0",
+    explanation: "Los robots industriales usan encoders absolutos para saber la posición de cada articulación. Estos encoders conocen exactamente en qué ángulo está el eje dentro de una vuelta completa (360°). Pero hay un problema: el motor gira muchas vueltas para mover la articulación, y el encoder solo sabe la posición dentro de esa vuelta, no cuántas vueltas dio.",
+    analogy: "Analogía: imaginá un reloj analógico. El minutero puede decirte exactamente en qué posición está (0 a 60 minutos), pero no te dice cuántas horas pasaron. El encoder es igual: sabe el ángulo, pero no cuántas vueltas completas.",
+    key: { label: "Concepto clave", text: "El encoder absoluto conoce la posición dentro de la vuelta, pero no el número de vueltas totales del motor." }
+  },
+  {
+    title: "El rol de la pila (batería)",
+    icon: "1",
+    explanation: "Para resolver el problema anterior, el robot guarda la cantidad de vueltas de cada eje en la memoria RAM (rápida pero volátil). La RAM necesita alimentación constante para no perder los datos. Cuando el robot se apaga, la pila entra en juego: su función es mantener viva esa RAM para que no se pierda el conteo de vueltas.",
+    analogy: "Analogía: es como la pila de un reloj digital. Si la sacás, el reloj pierde la hora. Acá, si la pila falla, el robot pierde la cuenta de vueltas de cada eje.",
+    key: { label: "¿Qué se pierde?", text: "Si la pila se descarga o falla, se pierde el cuentarrevoluciones de los ejes, y el robot ya no sabe en qué posición real está." }
+  },
+  {
+    title: "Paso 1 — Llevar los ejes a cero",
+    icon: "2",
+    explanation: "Antes de tocar nada en el software, hay que mover el robot manualmente en modo JOINT (eje por eje) hasta que las marcas físicas de cada articulación coincidan. El IRB 1100 tiene 6 ejes y cada uno tiene una marca de sincronización (synchronization mark) grabada en la estructura.",
+    warn: { label: "Atención", text: "Esto se hace PRIMERO, antes de entrar al software. Si calibrás sin haber alineado las marcas, el robot quedará descalibrado aunque el proceso parezca exitoso." },
+    checklist: ["Eje 1 — marca en la base giratoria", "Eje 2 — marca en el hombro", "Eje 3 — marca en el codo", "Eje 4 — marca en la muñeca (rotación)", "Eje 5 — marca en la muñeca (flexión)", "Eje 6 — marca en la brida del flange"]
+  },
+  {
+    title: "Paso 2 — Ir a calibración en el teach pendant",
+    icon: "3",
+    explanation: "Con los ejes ya alineados en sus marcas, ahora sí se trabaja en el software del teach pendant (la consola de programación del robot ABB).",
+    ministeps: [
+      "Entrá al menú principal del FlexPendant.",
+      "Tocá el ícono 'Calibrar'.",
+      "Se abre el resumen de calibración, donde podés ver el estado de cada eje (rob1_1 a rob1_6).",
+      "Desplegá el menú lateral 'Métodos de calibración'.",
+      "Presioná el botón 'Cuentarrevoluciones'."
+    ],
+    key: { label: "¿Qué ves en pantalla?", text: "Aparece una lista con los 6 ejes (rob1_1 a rob1_6) y su estado actual. Si están descalibrados, lo indica. También puede aparecer una advertencia sobre el eje 4 y el mazo de cables." }
+  },
+  {
+    title: "Paso 3 — Actualizar el cuentarrevoluciones",
+    icon: "4",
+    explanation: "En la pantalla de Cuentarrevoluciones verás una tabla con los 6 ejes. Cada uno tiene una casilla de selección y muestra el estado actual.",
+    ministeps: [
+      "Seleccioná todos los ejes (marcá todas las casillas).",
+      "Verificá que el estado muestre 'Cuentarrevoluciones actualizados'.",
+      "Presioná el botón 'Actualizar' (arriba a la derecha).",
+      "Si todo fue correcto, aparece un mensaje de éxito."
+    ],
+    warn: { label: "Advertencia importante", text: "El teach pendant puede mostrar una advertencia sobre el eje 4: 'El eje 4 no está equipado con ningún tope mecánico. Preste atención a la correcta alineación de la rotación del eje para evitar daños en el mazo de cables.'" },
+    key: { label: "Resultado esperado", text: "Todos los ejes muestran 'Cuentarrevoluciones actualizados' y el sistema vuelve a conocer la posición real del robot." }
+  },
+  {
+    title: "Resumen final — todo el proceso",
+    icon: "5",
+    explanation: "Ya viste todo el procedimiento completo. Acá tenés un resumen rápido para repasar antes del examen.",
+    checklist: [
+      "Entender: el encoder sabe el ángulo pero no las vueltas",
+      "Entender: la RAM guarda las vueltas, la pila alimenta la RAM",
+      "Paso 1: mover el robot en modo joint hasta alinear marcas físicas de los 6 ejes",
+      "Paso 2: entrar a Calibrar → Métodos de calibración → Cuentarrevoluciones",
+      "Paso 3: seleccionar todos los ejes → Actualizar → verificar mensaje de éxito",
+      "Precaución especial con el eje 4 (sin tope mecánico)"
+    ]
+  }
+];
+
+let current = 0;
+
+function render() {
+  const s = steps[current];
+  const pbar = document.getElementById('pbar');
+  pbar.innerHTML = steps.map((_, i) =>
+    `<div class="pb-step ${i < current ? 'done' : i === current ? 'active' : ''}"></div>`
+  ).join('');
+
+  let html = `<div class="card">
+    <div class="step-title">
+      <div class="step-num">${s.icon}</div>
+      ${s.title}
+    </div>
+    <p class="explanation">${s.explanation}</p>`;
+
+  if (s.analogy) html += `<div class="analogy-box"><p><strong>Analogía:</strong> ${s.analogy.replace('Analogía: ', '')}</p></div>`;
+  if (s.warn) html += `<div class="warn-box"><p class="box-label">${s.warn.label}</p><p>${s.warn.text}</p></div>`;
+  if (s.ministeps) {
+    html += `<div class="mini-steps">` + s.ministeps.map((t, i) =>
+      `<div class="mini-step"><span class="mini-step-num">${i+1}</span><span class="mini-step-text">${t}</span></div>`
+    ).join('') + `</div>`;
+  }
+  if (s.key) html += `<div class="key-box"><p class="box-label">${s.key.label}</p><p>${s.key.text}</p></div>`;
+  if (s.checklist) {
+    html += `<ul class="checklist">` + s.checklist.map(item =>
+      `<li><div class="check-icon">✓</div><span>${item}</span></li>`
+    ).join('') + `</ul>`;
+  }
+
+  html += `</div>`;
+
+  html += `<div class="nav">
+    ${current > 0 ? `<button class="nav-btn" onclick="go(-1)">← Anterior</button>` : '<span></span>'}
+    <span class="nav-label">${current + 1} / ${steps.length}</span>
+    ${current < steps.length - 1 ? `<button class="nav-btn primary" onclick="go(1)">Siguiente →</button>` : `<button class="nav-btn primary">✓ Completado</button>`}
+  </div>`;
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function go(d) { current = Math.max(0, Math.min(steps.length - 1, current + d)); render(); window.scrollTo({top: 0, behavior: 'smooth'}); }
+render();
+</script>
+</body>
+</html>
