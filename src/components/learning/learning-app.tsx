@@ -29,6 +29,11 @@ import {
   SlideCalibrationSteps, SlideQuizCalibracion, SlideTriangleCenter,
   SlideDrawingRobot, SlideSummary, SlideQuizFinal,
 } from './slides-rest';
+import {
+  SlideTransferIntro, SlideConnection, SlidePermissions,
+  SlideSyncModules, SlideLoadData, SlideAlignment,
+  SlideExecution, SlideQuizTransferencia,
+} from './slides-transferencia';
 
 // ============================================================
 // Helpers
@@ -73,10 +78,18 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 21: return <SlideCalibrationCounter />;
     case 22: return <SlideCalibrationSteps />;
     case 23: return <SlideQuizCalibracion />;
-    case 24: return <SlideTriangleCenter />;
-    case 25: return <SlideDrawingRobot />;
-    case 26: return <SlideSummary />;
-    case 27: return <SlideQuizFinal />;
+    case 24: return <SlideTransferIntro />;
+    case 25: return <SlideConnection />;
+    case 26: return <SlidePermissions />;
+    case 27: return <SlideSyncModules />;
+    case 28: return <SlideLoadData />;
+    case 29: return <SlideAlignment />;
+    case 30: return <SlideExecution />;
+    case 31: return <SlideQuizTransferencia />;
+    case 32: return <SlideTriangleCenter />;
+    case 33: return <SlideDrawingRobot />;
+    case 34: return <SlideSummary />;
+    case 35: return <SlideQuizFinal />;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }
@@ -139,9 +152,7 @@ export function LearningApp() {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-5">
-        <div className="flex items-center justify-center size-9 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white font-bold text-sm shrink-0">
-          R
-        </div>
+        <img src="/logo-guruweb.png" alt="Guruweb" className="size-9 rounded-lg object-contain shrink-0" />
         <div className="min-w-0">
           <h2 className="text-sm font-semibold text-white truncate">ABB IRB1100</h2>
           <p className="text-xs text-slate-400 truncate">Aprendizaje Interactivo</p>

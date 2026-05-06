@@ -766,7 +766,7 @@ export function SlideTriangleCenter() {
 
 /* ═══════════════════ SLIDE 25: Dibujando con Robot ═══════════════════ */
 export function SlideDrawingRobot() {
-  const exercises = codeExercises[25] ?? [];
+  const exercises = codeExercises[33] ?? [];
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold">Dibujando con el Robot</h2>
@@ -792,6 +792,7 @@ export function SlideSummary() {
           { section: 'Work Objects', color: 'from-sky-500 to-cyan-500', points: ['WObj personalizado vs wobj0', 'Puntos se mueven con el objeto', 'Parametro \\WObj en MoveJ/MoveL'] },
           { section: 'Trayectorias', color: 'from-amber-500 to-yellow-500', points: ['Secuencia ordenada de puntos', 'Joint para transicion, Lineal para trabajo', 'Zona fine para precision'] },
           { section: 'Calibracion', color: 'from-rose-500 to-pink-500', points: ['Encoder no cuenta vueltas del motor', 'RAM + Pila mantienen la cuenta', 'Calibrar: marcas → menu → actualizar'] },
+          { section: 'Transferencia', color: 'from-red-600 to-orange-600', points: ['Ethernet al Puerto de Servicio (DHCP)', 'Grant + Backup antes de cargar', 'Reemplazar IDs virtuales por reales', 'LoadData: masa y CG nunca en 0', 'Alinear perpendicular + velocidad 7%'] },
           { section: 'Figuras', color: 'from-lime-500 to-green-500', points: ['h = L×√3/2, r = L/3', 'Vertices relativos al centro', 'Usar Offs para desfase'] },
           { section: 'Repaso', color: 'from-slate-500 to-zinc-500', points: ['WaitTime para esperas', 'Offs para desfase de puntos', 'PROC/ENDPROC estructura RAPID'] },
         ].map((s) => (

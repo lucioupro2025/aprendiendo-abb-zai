@@ -151,6 +151,37 @@
 
 ---
 
+## Task 6: Add Transferencia Section + Fix Logo
+
+### Date: 2025
+
+### Files Created:
+
+1. **`/home/z/my-project/src/components/learning/slides-transferencia.tsx`** (NEW - ~600 lines)
+   - 8 interactive slides for "Transferencia y Sincronizacion" section
+   - Animated robot collision, interactive connection, permissions wizard, balance visualization, alignment tool, speed gauge, checklist, quiz
+
+2. **`/home/z/my-project/public/logo-guruweb.png`** (NEW)
+   - Guruweb logo copied from upload to public folder
+
+### Files Modified:
+
+1. **`/home/z/my-project/src/lib/slide-data.ts`**
+   - Added 8 new slides (IDs 24-31) for Transferencia
+   - Renumbered: Figuras 32-33, Repaso 34-35 (total: 36 slides)
+   - Added quizTransferencia (8 questions), codeExercises[27], codeExercises[30]
+
+2. **`/home/z/my-project/src/components/learning/learning-app.tsx`**
+   - Added imports, updated SlideView switch, replaced logo with Guruweb image
+
+3. **`/home/z/my-project/src/components/learning/slides-rest.tsx`**
+   - Updated codeExercises key, added Transferencia to Summary
+
+### Lint Status:
+- All lint checks pass with zero errors and zero warnings
+- Dev server compiles successfully
+---
+
 ## Task 5: Fix Code Exercise Completion Bug
 
 ### Date: 2025

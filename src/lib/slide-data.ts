@@ -38,11 +38,22 @@ export const slides: SlideData[] = [
   { id: 22, title: 'Pasos de Calibracion', section: 'Calibracion', sectionColor: 'from-rose-500 to-pink-500', type: 'interactive' },
   { id: 23, title: 'Quiz: Calibracion', section: 'Calibracion', sectionColor: 'from-rose-500 to-pink-500', type: 'quiz' },
 
-  { id: 24, title: 'Centro del Triangulo Equilatero', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'interactive' },
-  { id: 25, title: 'Dibujando con el Robot', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'code' },
+  // ═══════════ NUEVA SECCION: Transferencia y Sincronizacion ═══════════
+  { id: 24, title: 'De lo Virtual a lo Real', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'interactive' },
+  { id: 25, title: 'Conexion e Infraestructura', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'interactive' },
+  { id: 26, title: 'Permisos y Seguridad', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'interactive' },
+  { id: 27, title: 'Sincronizacion de Modulos', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'code' },
+  { id: 28, title: 'Datos de Carga (LoadData)', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'interactive' },
+  { id: 29, title: 'Alineacion y Singularidades', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'interactive' },
+  { id: 30, title: 'Ejecucion y Verificacion', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'code' },
+  { id: 31, title: 'Quiz: Transferencia', section: 'Transferencia', sectionColor: 'from-red-600 to-orange-600', type: 'quiz' },
+  // ═══════════ FIN NUEVA SECCION ═══════════
 
-  { id: 26, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'content' },
-  { id: 27, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'quiz' },
+  { id: 32, title: 'Centro del Triangulo Equilatero', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'interactive' },
+  { id: 33, title: 'Dibujando con el Robot', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'code' },
+
+  { id: 34, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'content' },
+  { id: 35, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'quiz' },
 ];
 
 export const sections = [
@@ -52,8 +63,9 @@ export const sections = [
   { name: 'Work Objects', color: 'from-sky-500 to-cyan-500', startId: 16, icon: '📦' },
   { name: 'Trayectorias', color: 'from-amber-500 to-yellow-500', startId: 19, icon: '🛤️' },
   { name: 'Calibracion', color: 'from-rose-500 to-pink-500', startId: 21, icon: '⚙️' },
-  { name: 'Figuras', color: 'from-lime-500 to-green-500', startId: 24, icon: '📏' },
-  { name: 'Repaso', color: 'from-slate-500 to-zinc-500', startId: 26, icon: '🏆' },
+  { name: 'Transferencia', color: 'from-red-600 to-orange-600', startId: 24, icon: '📡' },
+  { name: 'Figuras', color: 'from-lime-500 to-green-500', startId: 32, icon: '📏' },
+  { name: 'Repaso', color: 'from-slate-500 to-zinc-500', startId: 34, icon: '🏆' },
 ];
 
 // ---- QUIZ DATA ----
@@ -179,6 +191,57 @@ export const quizCalibracion: QuizQuestion[] = [
   },
 ];
 
+export const quizTransferencia: QuizQuestion[] = [
+  {
+    question: 'Cual es el metodo mandatorio para conectar la PC al controlador ABB?',
+    options: ['WiFi', 'Bluetooth', 'Cable Ethernet al Puerto de Servicio', 'USB'],
+    correct: 2,
+    explanation: 'El metodo mandatorio es un cable Ethernet directo al Puerto de Servicio del controlador, que activa el DHCP interno.',
+  },
+  {
+    question: 'Que sucede si los datos de masa y centro de gravedad estan en cero?',
+    options: ['El robot funciona mas rapido', 'El robot se bloquea por seguridad motriz', 'No pasa nada', 'El robot se apaga'],
+    correct: 1,
+    explanation: 'Si la masa y el centro de gravedad son cero o invalidos, el robot se bloquea por seguridad motriz al intentar ejecutar el programa.',
+  },
+  {
+    question: 'Donde debe validarse fisicamente la solicitud de acceso a escritura?',
+    options: ['En la PC con RobotStudio', 'En el FlexPendant presionando Grant', 'En el controlador automaticamente', 'No necesita validacion'],
+    correct: 1,
+    explanation: 'El operador debe validar la solicitud fisicamente en el FlexPendant presionando Grant (Conceder).',
+  },
+  {
+    question: 'Que indica que el entorno de RobotStudio tiene acceso de escritura activo?',
+    options: ['El fondo es gris', 'El fondo cambia de gris a blanco', 'Aparece un icono verde', 'Suena una alarma'],
+    correct: 1,
+    explanation: 'Cuando se concede el acceso, el entorno cambia de fondo gris (bloqueado) a blanco (activo).',
+  },
+  {
+    question: 'Cual es la primera velocidad recomendada para la primera ejecucion en el robot real?',
+    options: ['100% de velocidad nominal', '50% de velocidad nominal', '7% o 25% de velocidad nominal', 'No importa la velocidad'],
+    correct: 2,
+    explanation: 'La primera ejecucion debe realizarse al 7% o 25% de la velocidad nominal por seguridad.',
+  },
+  {
+    question: 'Que se debe hacer si el robot alcanza una singularidad de muneca (Eje 5 cerca de 0 grados)?',
+    options: ['Apagar y prender el robot', 'Cambiar a modo Joint, rotar Eje 5 y retomar', 'Seguir el movimiento forzando', 'Reiniciar RobotStudio'],
+    correct: 1,
+    explanation: 'Se debe cambiar a Coordenadas de Articulacion (Joint), rotar el Eje 5 fuera de la zona critica y retomar el movimiento.',
+  },
+  {
+    question: 'Cual es la forma profesional de actualizar las coordenadas de un punto en el robot real?',
+    options: ['Modificar el valor Z a mano por teclado', 'Usar Teach Position (Actualizar Posicion) fisicamente', 'Copiar del simulador', 'No se pueden modificar'],
+    correct: 1,
+    explanation: 'El estandar profesional es llevar el robot fisicamente al punto y usar Teach Position en el FlexPendant.',
+  },
+  {
+    question: 'Por que es OBLIGATORIO hacer un Backup antes de cargar modulos?',
+    options: ['Es una recomendacion opcional', 'Un error en sincronizacion puede deshabilitar la celda', 'Para ahorrar espacio', 'El controlador lo pide cada 24 horas'],
+    correct: 1,
+    explanation: 'Un error en la sincronizacion de datos de calibracion puede deshabilitar la celda; el Backup es la unica ruta de restauracion inmediata.',
+  },
+];
+
 export const quizFinal: QuizQuestion[] = [
   {
     question: 'Que instruccion RAPID se usa para movimiento lineal?',
@@ -223,7 +286,8 @@ export const quizMap: Record<number, QuizQuestion[]> = {
   12: quizCoordenadas,
   18: quizWorkObjects,
   23: quizCalibracion,
-  27: quizFinal,
+  31: quizTransferencia,
+  35: quizFinal,
 };
 
 // ---- CODE EXERCISE DATA ----
@@ -302,7 +366,49 @@ export const codeExercises: Record<number, CodeExercise[]> = {
       hint: 'Offs(punto, x, y, z) desfasa. Para 20mm sobre la superficie: desfasa z=20.',
     },
   ],
-  25: [
+  // ═══════════ NUEVOS EJERCICIOS: Transferencia ═══════════
+  27: [
+    {
+      title: 'Reemplazo de identificadores virtuales',
+      description: 'Al transferir de RobotStudio al controlador real, debes reemplazar los identificadores virtuales por los reales calibrados.',
+      template: 'MoveJ P_Home, v200, z10, __B1__ \\WObj:=__B2__;\nMoveL Offs(P_Punto1, 0, 0, 20), v50, fine, __B3__\n      \\WObj:=__B4__;',
+      blanks: [
+        { id: 'B1', answer: 'tPina', options: ['tool1', 'tPina', 'gripper1', 'wobj0'] },
+        { id: 'B2', answer: 'wPina', options: ['wobj0', 'wPina', 'wobj_mesa', 'wobj_base'] },
+        { id: 'B3', answer: 'tPina', options: ['tool1', 'tPina', 'gripper1', 'wobj0'] },
+        { id: 'B4', answer: 'wPina', options: ['wobj0', 'wPina', 'wobj_mesa', 'wobj_base'] },
+      ],
+      hint: 'Reemplaza tool1 por la herramienta real calibrada (tPina) y wobj0 por el WObj real (wPina).',
+    },
+    {
+      title: 'Protocolo de permisos',
+      description: 'Ordena los pasos correctos para obtener acceso de escritura al controlador real.',
+      template: 'Paso 1: __B1__\nPaso 2: Validar en FlexPendant con __B2__\nPaso 3: Verificar fondo __B3__ (activo)\nPaso 4: Crear __B4__ completo',
+      blanks: [
+        { id: 'B1', answer: 'Solicitar acceso', options: ['Solicitar acceso', 'Apagar robot', 'Ejecutar programa', 'Borrar modulos'] },
+        { id: 'B2', answer: 'Grant', options: ['Grant', 'Start', 'Stop', 'Enter'] },
+        { id: 'B3', answer: 'blanco', options: ['blanco', 'gris', 'negro', 'azul'] },
+        { id: 'B4', answer: 'Backup', options: ['Backup', 'Modulo', 'Tool', 'Programa'] },
+      ],
+      hint: 'El flujo es: Solicitar acceso → Grant en FlexPendant → Fondo blanco → Backup ANTES de cargar.',
+    },
+  ],
+  30: [
+    {
+      title: 'Ejecucion segura en el robot real',
+      description: 'Completa los pasos para una ejecucion segura en el controlador fisico por primera vez.',
+      template: 'PROC main()\n  MoveJ Home, v200, fine, __B1__;\n  // Primera ejecucion: velocidad al __B2__\n  MoveL P_Contacto, v50, fine, tPina\n      \\WObj:=wPina;\n  // Usar modo __B3__ para validar\n  // Si punto incorrecto: usar __B4__\nENDPROC',
+      blanks: [
+        { id: 'B1', answer: 'tPina', options: ['tool1', 'tPina', 'wPina', 'gripper'] },
+        { id: 'B2', answer: '7%', options: ['100%', '50%', '7%', '25%'] },
+        { id: 'B3', answer: 'Step', options: ['Step', 'Auto', 'Continuous', 'Manual'] },
+        { id: 'B4', answer: 'Teach', options: ['Teach', 'Delete', 'Rename', 'Copy'] },
+      ],
+      hint: 'Primera ejecucion: velocidad 7%, modo Step-by-Step, y si el punto esta mal usar Teach Position.',
+    },
+  ],
+  // ═══════════ FIN NUEVOS EJERCICIOS ═══════════
+  33: [
     {
       title: 'Parametros de velocidad y zona',
       description: 'Movimiento rapido a P1 (zona 20) y luego preciso a P2.',
