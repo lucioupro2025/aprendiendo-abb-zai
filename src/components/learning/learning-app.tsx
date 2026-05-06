@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   ChevronLeft, ChevronRight, Menu, Home, BookOpen,
   CheckCircle, HelpCircle, Code, MousePointerClick, Layers,
@@ -40,18 +40,6 @@ function getTypeIcon(type: string) {
     case 'code': return <Code className="size-3.5" />;
     case 'interactive': return <MousePointerClick className="size-3.5" />;
     default: return <Layers className="size-3.5" />;
-  }
-}
-
-function getTypeLabel(type: string) {
-  switch (type) {
-    case 'quiz': return 'Quiz';
-    case 'code': return 'Codigo';
-    case 'interactive': return 'Interactivo';
-    case 'content': return 'Contenido';
-    case 'cover': return 'Inicio';
-    case 'toc': return 'Indice';
-    default: return '';
   }
 }
 
@@ -139,8 +127,16 @@ export function LearningApp() {
     return () => window.removeEventListener('keydown', onKey);
   }, [goNext, goPrev]);
 
+  // Scroll content to top when changing slides
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentSlide]);
+
+  // Sidebar width for offset calculations
+  const sidebarW = sidebarCollapsed ? 'w-16' : 'w-60';
+
   // Sidebar content (shared desktop/mobile)
-  const sidebar = (
+  const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-5">
         <div className="flex items-center justify-center size-9 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white font-bold text-sm shrink-0">
@@ -205,9 +201,9 @@ export function LearningApp() {
   );
 
   return (
-    <div className="h-dvh h-screen flex flex-col bg-background text-foreground overflow-hidden" style={{ height: '100dvh' }}>
-      {/* Desktop sidebar */}
-      <aside className={`hidden lg:flex flex-col bg-slate-900 text-white shrink-0 transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-60'}`}>
+    <>
+      {/* ===== FIXED: Desktop Sidebar ===== */}
+      <aside className={`hidden lg:flex flex-col fixed left-0 top-0 bottom-0 z-30 bg-slate-900 text-white transition-all duration-300 ${sidebarW}`}>
         <div className="flex items-center justify-end px-2 py-2">
           <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white hover:bg-slate-800 h-7 w-7"
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
@@ -226,68 +222,77 @@ export function LearningApp() {
               ))}
             </div>
           </ScrollArea>
-        ) : sidebar}
+        ) : sidebarContent}
       </aside>
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-0">
-        {/* Mobile header */}
-        <header className="flex items-center gap-2 px-3 py-2.5 border-b bg-white lg:hidden">
-          <Button variant="ghost" size="icon" className="shrink-0" onClick={() => setSidebarOpen(true)}>
-            <Menu className="size-5" />
-          </Button>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-sm font-semibold truncate">{slide.title}</h1>
-            {slide.section && <p className="text-xs text-muted-foreground truncate">{slide.section}</p>}
-          </div>
-          {slide.type !== 'cover' && slide.type !== 'toc' && (
-            <Badge variant="secondary" className="gap-1 shrink-0 text-[10px]">{getTypeIcon(slide.type)}</Badge>
-          )}
-        </header>
+      {/* ===== FIXED: Mobile Header ===== */}
+      <header className="fixed top-0 left-0 right-0 z-40 flex items-center gap-2 px-3 py-2.5 border-b bg-white/95 backdrop-blur-sm lg:hidden">
+        <Button variant="ghost" size="icon" className="shrink-0" onClick={() => setSidebarOpen(true)}>
+          <Menu className="size-5" />
+        </Button>
+        <div className="min-w-0 flex-1">
+          <h1 className="text-sm font-semibold truncate">{slide.title}</h1>
+          {slide.section && <p className="text-xs text-muted-foreground truncate">{slide.section}</p>}
+        </div>
+        {slide.type !== 'cover' && slide.type !== 'toc' && (
+          <Badge variant="secondary" className="gap-1 shrink-0 text-[10px]">{getTypeIcon(slide.type)}</Badge>
+        )}
+      </header>
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto min-h-0 overscroll-contain scroll-smooth learning-scroll">
+      {/* ===== SCROLLABLE: Main Content ===== */}
+      <main
+        className={`pt-16 pb-16 lg:pt-0 lg:pb-14 min-h-screen lg:min-h-0 transition-[padding,margin] duration-300 ${
+          sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-60'
+        }`}
+      >
+        <div className="py-4">
           <SlideView slideId={currentSlide} onGoToSlide={goTo} />
-        </main>
+        </div>
+      </main>
 
-        {/* Bottom nav */}
-        <div className="flex items-center justify-between px-3 py-2.5 border-t bg-white/80 backdrop-blur-sm">
-          <div className="flex items-center gap-1.5 flex-1">
-            <Button variant="outline" size="sm" onClick={goPrev} disabled={currentSlide === 0} className="gap-1 shrink-0">
-              <ChevronLeft className="size-4" />
-              <span className="hidden sm:inline">Anterior</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="lg:hidden shrink-0" onClick={() => setSidebarOpen(true)}>
-              <Menu className="size-4" />
-            </Button>
-          </div>
-          <div className="flex items-center gap-2 px-2">
-            <span className="text-sm font-medium tabular-nums">{currentSlide + 1}</span>
-            <span className="text-sm text-muted-foreground">/</span>
-            <span className="text-sm tabular-nums text-muted-foreground">{total}</span>
-            <div className="hidden sm:block w-24 md:w-36">
-              <Progress value={((currentSlide + 1) / total) * 100} className="h-1.5" />
-            </div>
-          </div>
-          <div className="flex items-center gap-1.5 flex-1 justify-end">
-            <Button variant="ghost" size="icon" className="shrink-0" onClick={() => goTo(0)}>
-              <Home className="size-4" />
-            </Button>
-            <Button size="sm" onClick={goNext} disabled={currentSlide === total - 1} className="gap-1 shrink-0">
-              <span className="hidden sm:inline">Siguiente</span>
-              <ChevronRight className="size-4" />
-            </Button>
+      {/* ===== FIXED: Bottom Nav ===== */}
+      <nav
+        className={`fixed bottom-0 right-0 z-40 flex items-center justify-between px-3 py-2.5 border-t bg-white/95 backdrop-blur-sm transition-[left] duration-300 left-0 lg:left-auto ${
+          sidebarCollapsed ? 'lg:left-16' : 'lg:left-60'
+        }`}
+        role="navigation"
+        aria-label="Navegacion de diapositivas"
+      >
+        <div className="flex items-center gap-1.5 flex-1">
+          <Button variant="outline" size="sm" onClick={goPrev} disabled={currentSlide === 0} className="gap-1 shrink-0">
+            <ChevronLeft className="size-4" />
+            <span className="hidden sm:inline">Anterior</span>
+          </Button>
+          <Button variant="ghost" size="icon" className="lg:hidden shrink-0" onClick={() => setSidebarOpen(true)}>
+            <Menu className="size-4" />
+          </Button>
+        </div>
+        <div className="flex items-center gap-2 px-2">
+          <span className="text-sm font-medium tabular-nums">{currentSlide + 1}</span>
+          <span className="text-sm text-muted-foreground">/</span>
+          <span className="text-sm tabular-nums text-muted-foreground">{total}</span>
+          <div className="hidden sm:block w-24 md:w-36">
+            <Progress value={((currentSlide + 1) / total) * 100} className="h-1.5" />
           </div>
         </div>
-      </div>
+        <div className="flex items-center gap-1.5 flex-1 justify-end">
+          <Button variant="ghost" size="icon" className="shrink-0" onClick={() => goTo(0)}>
+            <Home className="size-4" />
+          </Button>
+          <Button size="sm" onClick={goNext} disabled={currentSlide === total - 1} className="gap-1 shrink-0">
+            <span className="hidden sm:inline">Siguiente</span>
+            <ChevronRight className="size-4" />
+          </Button>
+        </div>
+      </nav>
 
-      {/* Mobile sidebar */}
+      {/* ===== Mobile Sidebar (Sheet) ===== */}
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
         <SheetContent side="left" className="p-0 w-72 bg-slate-900 border-slate-700">
           <SheetTitle className="sr-only">Menu</SheetTitle>
-          {sidebar}
+          {sidebarContent}
         </SheetContent>
       </Sheet>
-    </div>
+    </>
   );
 }
