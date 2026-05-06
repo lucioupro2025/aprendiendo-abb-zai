@@ -2366,7 +2366,7 @@ function Slide22_CalibrationSteps() {
             return (
               <g key={i}>
                 <rect x={60 + col * 120} y={35 + row * 28} width="100" height="22" fill="#22c55e" fillOpacity="0.15" rx="4" stroke="#22c55e" strokeWidth="1" />
-                <CheckCircle2 cx={76} cy={46 + row * 28} r="5" fill="#22c55e" />
+                <circle cx={76} cy={46 + row * 28} r="5" fill="#22c55e" />
                 <text x={88} y={50 + row * 28} fill="#166534" fontSize="9" fontWeight="bold">{axis}</text>
               </g>
             );
@@ -2375,8 +2375,9 @@ function Slide22_CalibrationSteps() {
           <rect x="160" y="105" width="120" height="28" fill="#22c55e" rx="6" />
           <text x="220" y="124" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">Actualizar</text>
           {/* Success check */}
-          <CheckCircle2 x="380" y="48" size="20" className="text-emerald-500" />
-          <text x="370" y="78" textAnchor="middle" fill="#22c55e" fontSize="9" fontWeight="bold">Calibrado!</text>
+          <circle cx="390" cy="52" r="8" fill="#22c55e" />
+          <polyline points="385,52 389,56 396,48" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="390" y="78" textAnchor="middle" fill="#22c55e" fontSize="9" fontWeight="bold">Calibrado!</text>
         </svg>
       ),
     },
