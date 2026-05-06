@@ -17,7 +17,9 @@ export function CodeExerciseComponent({ exercise }: Props) {
 
   // Parse template into segments: text and blanks
   const blankIds = exercise.blanks.map((b) => b.id);
-  const regex = new RegExp(`(${blankIds.map((id) => `__${id}__`).join('|')})`, 'g');
+  const wrappedIds = blankIds.map((id) => `__${id}__`);
+  const blankIdSet = new Set(wrappedIds);
+  const regex = new RegExp(`(${wrappedIds.join('|')})`, 'g');
   const segments = exercise.template.split(regex).filter(Boolean);
 
   function handleSelect(blankId: string, value: string) {
@@ -46,7 +48,7 @@ export function CodeExerciseComponent({ exercise }: Props) {
         <div className="bg-slate-900 text-slate-100 rounded-lg p-4 font-mono text-sm overflow-x-auto">
           <pre className="whitespace-pre leading-relaxed">
             {segments.map((seg, i) => {
-              if (blankIds.includes(seg)) {
+              if (blankIdSet.has(seg)) {
                 const blankId = seg.replace(/__/g, '');
                 const blank = exercise.blanks.find((b) => b.id === blankId);
                 const current = answers[blankId] ?? '';

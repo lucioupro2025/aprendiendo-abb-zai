@@ -148,3 +148,31 @@
 ### Lint Status:
 - All lint checks pass with zero errors and zero warnings
 - Dev server compiles successfully
+
+---
+
+## Task 5: Fix Code Exercise Completion Bug
+
+### Date: 2025
+
+### Problem:
+User reported that exercises in "Work Objects" and "Trayectorias" sections did not allow completing the exercises. The dropdown selects were not rendered, showing raw `__B1__` text instead.
+
+### Root Cause:
+In `code-exercise-component.tsx`, the condition `blankIds.includes(seg)` compared against `['B1', 'B2']` but the segments from `String.split()` with a capturing group contained `'__B1__'`, `'__B2__'` (with double underscores). The condition was always `false`, so `<select>` elements were never rendered.
+
+### Fix Applied:
+
+**File: `/home/z/my-project/src/components/learning/code-exercise-component.tsx`**
+- Created `wrappedIds` array: `blankIds.map(id => '__' + id + '__')`
+- Created `blankIdSet` (Set) for O(1) lookup
+- Changed condition from `blankIds.includes(seg)` to `blankIdSet.has(seg)`
+- Updated regex construction to use `wrappedIds.join('|')`
+
+### Impact:
+- Fixes ALL code exercises across all slides (15, 17, 20, 25), not just Work Objects and Trayectorias
+- The bug existed since initial creation but was only noticed in those two sections
+
+### Lint Status:
+- All lint checks pass with zero errors and zero warnings
+- Dev server compiles successfully
