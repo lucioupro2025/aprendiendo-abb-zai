@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { QuizComponent } from './quiz-component';
 import { CodeExerciseComponent } from './code-exercise-component';
@@ -74,6 +74,150 @@ export function SlideMoveJMoveL() {
 }
 
 /* ═══════════════════ SLIDE 14: Parámetros Interactivo ═══════════════════ */
+
+/* ---------- Animated robot dot along waypoints ---------- */
+function AnimatedRobotPath({ speed, zone }: { speed: number; zone: number }) {
+  const dotRef = useRef<SVGCircleElement>(null);
+  const innerRef = useRef<SVGCircleElement>(null);
+  const animRef = useRef<number>(0);
+  const progressRef = useRef(0);
+  const trailRef = useRef<number[]>([]);
+
+  const points = [
+    { x: 50, y: 60, label: 'Inicio' },
+    { x: 200, y: 60, label: 'P1' },
+    { x: 350, y: 60, label: 'P2' },
+  ];
+
+  useEffect(() => {
+    progressRef.current = 0;
+    trailRef.current = [];
+
+    function tick() {
+      const duration = 6000 / (speed / 50);
+      const step = 16 / duration;
+
+      progressRef.current += step;
+      if (progressRef.current >= 1) progressRef.current = 0;
+
+      const currentProgress = progressRef.current;
+      const segProgress = (currentProgress * 2) % 1;
+      const segIndex = currentProgress < 0.5 ? 0 : 1;
+
+      const p0 = points[segIndex];
+      const p1 = points[segIndex + 1];
+
+      let t = segProgress;
+      if (zone === 0) {
+        if (t < 0.6) {
+          t = (t / 0.6) * 0.82;
+        } else if (t < 0.85) {
+          t = 0.82 + ((t - 0.6) / 0.25) * 0.05;
+        } else {
+          t = 0.87 + ((t - 0.85) / 0.15) * 0.13;
+        }
+      } else {
+        const smooth = segProgress * segProgress * (3 - 2 * segProgress);
+        const slowdown = zone < 5 ? 0.92 : zone < 20 ? 0.97 : 1;
+        t = smooth * slowdown + segProgress * (1 - slowdown);
+      }
+
+      const cx = p0.x + (p1.x - p0.x) * t;
+      const cy = p0.y + (p1.y - p0.y) * t;
+
+      trailRef.current.push(cx);
+      if (trailRef.current.length > 25) trailRef.current.shift();
+
+      if (dotRef.current) {
+        dotRef.current.setAttribute('cx', String(cx));
+        dotRef.current.setAttribute('cy', String(cy));
+      }
+      if (innerRef.current) {
+        innerRef.current.setAttribute('cx', String(cx));
+        innerRef.current.setAttribute('cy', String(cy));
+      }
+
+      const trailGroup = document.getElementById('anim-trail');
+      if (trailGroup) {
+        trailGroup.innerHTML = trailRef.current
+          .map((tx, i) => {
+            const opacity = ((i + 1) / trailRef.current.length) * 0.5;
+            const r = ((i + 1) / trailRef.current.length) * 3;
+            return `<circle cx="${tx}" cy="60" r="${r}" fill="#f97316" opacity="${opacity}" />`;
+          })
+          .join('');
+      }
+
+      const speedText = document.getElementById('anim-speed');
+      if (speedText) {
+        let displaySpeed = speed;
+        if (zone === 0) {
+          if (t > 0.82 && t < 0.87) displaySpeed = Math.round(speed * 0.08);
+          else if (t >= 0.6 && t <= 0.82) displaySpeed = Math.round(speed * 0.3);
+        }
+        speedText.textContent = `${displaySpeed} mm/s`;
+      }
+
+      animRef.current = requestAnimationFrame(tick);
+    }
+
+    animRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [speed, zone]);
+
+  const zoneR = zone === 0 ? 0 : Math.min(zone * 0.5 + 5, 28);
+
+  return (
+    <svg viewBox="0 0 400 100" className="w-full" role="img" aria-label="Animacion de robot">
+      <defs>
+        <filter id="dot-glow">
+          <feGaussianBlur stdDeviation="2.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <rect width="400" height="100" fill="#f8fafc" rx="8" />
+
+      {/* Path line */}
+      <line x1="50" y1="60" x2="350" y2="60" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="6,4" />
+
+      {/* Waypoints */}
+      {points.map((p, i) => (
+        <g key={i}>
+          <text x={p.x} y="35" textAnchor="middle" fill="#475569" fontSize="10" fontWeight="bold">{p.label}</text>
+          {i > 0 && zoneR > 0 && (
+            <circle cx={p.x} cy="60" r={zoneR} fill="#22c55e" fillOpacity="0.1" stroke="#22c55e" strokeWidth="1" strokeDasharray="3,2" />
+          )}
+          {i > 0 && zone === 0 && (
+            <circle cx={p.x} cy="60" r="8" fill="#ef4444" fillOpacity="0.1" stroke="#ef4444" strokeWidth="1.5" />
+          )}
+          <circle cx={p.x} cy="60" r="4" fill={i === 0 ? '#f97316' : zone === 0 ? '#ef4444' : '#22c55e'} />
+        </g>
+      ))}
+
+      {/* Trail */}
+      <g id="anim-trail" />
+
+      {/* Robot dot */}
+      <circle ref={dotRef} cx="50" cy="60" r="8" fill="#f97316" filter="url(#dot-glow)" />
+      <circle ref={innerRef} cx="50" cy="60" r="3" fill="white" />
+
+      {/* Info text */}
+      <text x="200" y="90" textAnchor="middle" fill="#64748b" fontSize="9">
+        {zone === 0
+          ? 'Con fine: el robot frena en cada punto (se detiene 0.5s)'
+          : `Con z${zone}: el robot pasa sin detenerse`}
+      </text>
+      <text x="200" y="18" textAnchor="middle" fill="#f97316" fontSize="10" fontWeight="bold">
+        Velocidad: <tspan id="anim-speed">{speed} mm/s</tspan>
+      </text>
+    </svg>
+  );
+}
+
 export function SlideMovementParams() {
   const [speed, setSpeed] = useState(200);
   const [zone, setZone] = useState(10);
@@ -81,7 +225,7 @@ export function SlideMovementParams() {
   return (
     <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
       <h2 className="text-2xl font-bold">Parametros de Movimiento</h2>
-      <p className="text-sm text-muted-foreground">Experimenta como cambian los parametros de velocidad y zona.</p>
+      <p className="text-sm text-muted-foreground">Experimenta como cambian los parametros de velocidad y zona. La animacion arranca automaticamente.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Speed */}
@@ -134,24 +278,63 @@ export function SlideMovementParams() {
         </Card>
       </div>
 
-      {/* Visual comparison */}
+      {/* Animated visualization */}
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold text-sm">Animacion en tiempo real</h4>
+            <div className="flex items-center gap-2">
+              <span className="inline-block size-2 rounded-full bg-orange-500 animate-pulse" />
+              <span className="text-xs text-muted-foreground">En vivo</span>
+            </div>
+          </div>
+          <AnimatedRobotPath speed={speed} zone={zone} />
+          <p className="text-xs text-muted-foreground">
+            Cambia la velocidad y la zona para ver como se comporta el robot.
+            {zone === 0
+              ? ' Con fine, el robot desacelera y se detiene en cada punto.'
+              : ' Con zona, el robot no se detiene y mantiene velocidad.'}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Comparison table */}
       <Card className="border-0 shadow-sm">
         <CardContent className="p-4">
-          <h4 className="font-semibold text-sm mb-3">Visualizacion de zona</h4>
-          <svg viewBox="0 0 400 100" className="w-full">
-            <rect width="400" height="100" fill="#f8fafc" rx="8" />
-            {/* Path line */}
-            <line x1="40" y1="50" x2="360" y2="50" stroke="#94a3b8" strokeWidth="2" />
-            {/* Target point */}
-            <circle cx="200" cy="50" r={zone === 0 ? 4 : zone * 0.5 + 4} fill={zone === 0 ? '#ef4444' : '#22c55e'} fillOpacity="0.2" stroke={zone === 0 ? '#ef4444' : '#22c55e'} strokeWidth="1.5" />
-            <circle cx="200" cy="50" r="3" fill={zone === 0 ? '#ef4444' : '#22c55e'} />
-            <text x="200" y="20" textAnchor="middle" fill="#64748b" fontSize="9">{zone === 0 ? 'Punto exacto (fine)' : `Zona de ${zone}mm`}</text>
-            {/* Speed dots */}
-            {zone === 0
-              ? <text x="200" y="85" textAnchor="middle" fill="#64748b" fontSize="9">Robot se detiene aqui</text>
-              : <text x="200" y="85" textAnchor="middle" fill="#22c55e" fontSize="9">Robot pasa por aqui sin detenerse</text>
-            }
-          </svg>
+          <h4 className="font-semibold text-sm mb-3">Comparacion de zonas</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-1.5 pr-3 text-muted-foreground">Zona</th>
+                  <th className="text-left py-1.5 pr-3 text-muted-foreground">Comportamiento</th>
+                  <th className="text-left py-1.5 text-muted-foreground">Uso tipico</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-dashed">
+                  <td className="py-1.5 pr-3 font-mono font-bold text-red-600">fine</td>
+                  <td className="py-1.5 pr-3">Se detiene exactamente</td>
+                  <td className="py-1.5">Soldadura, pegado, pick &amp; place</td>
+                </tr>
+                <tr className="border-b border-dashed">
+                  <td className="py-1.5 pr-3 font-mono font-bold text-emerald-600">z1 - z5</td>
+                  <td className="py-1.5 pr-3">Pasa muy cerca</td>
+                  <td className="py-1.5">Trabajo de precision</td>
+                </tr>
+                <tr className="border-b border-dashed">
+                  <td className="py-1.5 pr-3 font-mono font-bold text-emerald-600">z10 - z20</td>
+                  <td className="py-1.5 pr-3">No se detiene, pasa de largo</td>
+                  <td className="py-1.5">Trayectorias generales</td>
+                </tr>
+                <tr>
+                  <td className="py-1.5 pr-3 font-mono font-bold text-emerald-600">z50</td>
+                  <td className="py-1.5 pr-3">Pasa lejos del punto</td>
+                  <td className="py-1.5">Transicion rapida</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
     </div>
