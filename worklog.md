@@ -206,4 +206,22 @@ In `code-exercise-component.tsx`, the condition `blankIds.includes(seg)` compare
 
 ### Lint Status:
 - All lint checks pass with zero errors and zero warnings
-- Dev server compiles successfully
+- Dev server compiles successfully---
+Task ID: 1
+Agent: Main
+Task: Fix deployment error - change next.config.ts output mode
+
+Work Log:
+- Identified that `output: "export"` in next.config.ts was causing deployment failure
+- With `output: "export"`, next build creates an `out/` folder but NOT `.next/standalone/`
+- The build script expects `.next/standalone/` to exist (for standalone server mode)
+- Changed `output: "export"` to `output: "standalone"` in next.config.ts
+- Verified clean build: `bun run build` completes successfully
+- Verified `.next/standalone/` is properly created with all static assets
+- Started dev server with keepalive script
+
+Stage Summary:
+- Fixed: next.config.ts now uses `output: "standalone"` instead of `output: "export"`
+- Build completes successfully with no errors
+- Deployment should now work correctly
+- All existing exam content (slides-examen.tsx) remains intact with all 46 slides
