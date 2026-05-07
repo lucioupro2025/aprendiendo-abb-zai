@@ -794,6 +794,7 @@ export function SlideSummary() {
           { section: 'Calibracion', color: 'from-rose-500 to-pink-500', points: ['Encoder no cuenta vueltas del motor', 'RAM + Pila mantienen la cuenta', 'Calibrar: marcas → menu → actualizar'] },
           { section: 'Transferencia', color: 'from-red-600 to-orange-600', points: ['Ethernet al Puerto de Servicio (DHCP)', 'Grant + Backup antes de cargar', 'Reemplazar IDs virtuales por reales', 'LoadData: masa y CG nunca en 0', 'Alinear perpendicular + velocidad 7%'] },
           { section: 'Figuras', color: 'from-lime-500 to-green-500', points: ['h = L×√3/2, r = L/3', 'Vertices relativos al centro', 'Usar Offs para desfase'] },
+          { section: 'Examen', color: 'from-fuchsia-500 to-pink-500', points: ['MoveC: 2 params (CirPoint, ToPoint)', 'Offs() para cuadrado 20x20', 'Aproximacion segura: MoveJ aire → MoveL contacto', 'Hombre muerto: mitad presionado = OK', 'Robtarget: posicion + orientacion + config'] },
           { section: 'Repaso', color: 'from-slate-500 to-zinc-500', points: ['WaitTime para esperas', 'Offs para desfase de puntos', 'PROC/ENDPROC estructura RAPID'] },
         ].map((s) => (
           <Card key={s.section} className="border-0 shadow-sm overflow-hidden">

@@ -34,6 +34,11 @@ import {
   SlideSyncModules, SlideLoadData, SlideAlignment,
   SlideExecution, SlideQuizTransferencia,
 } from './slides-transferencia';
+import {
+  SlideMoveC, SlideOffsExamen, SlideAproximacionSegura,
+  SlideRobtarget, SlideHombreMuerto, SlideCodigoExamen,
+  SlideTipsExamen, SlideQuizExamen,
+} from './slides-examen';
 
 // ============================================================
 // Helpers
@@ -88,8 +93,16 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 31: return <SlideQuizTransferencia />;
     case 32: return <SlideTriangleCenter />;
     case 33: return <SlideDrawingRobot />;
-    case 34: return <SlideSummary />;
-    case 35: return <SlideQuizFinal />;
+    case 36: return <SlideMoveC />;
+    case 37: return <SlideOffsExamen />;
+    case 38: return <SlideAproximacionSegura />;
+    case 39: return <SlideRobtarget />;
+    case 40: return <SlideHombreMuerto />;
+    case 41: return <SlideCodigoExamen />;
+    case 42: return <SlideTipsExamen />;
+    case 43: return <SlideQuizExamen />;
+    case 44: return <SlideSummary />;
+    case 45: return <SlideQuizFinal />;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }

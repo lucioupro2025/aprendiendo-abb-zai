@@ -52,8 +52,19 @@ export const slides: SlideData[] = [
   { id: 32, title: 'Centro del Triangulo Equilatero', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'interactive' },
   { id: 33, title: 'Dibujando con el Robot', section: 'Figuras', sectionColor: 'from-lime-500 to-green-500', type: 'code' },
 
-  { id: 34, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'content' },
-  { id: 35, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'quiz' },
+  // ═══════════ NUEVA SECCION: Preparacion para el Examen ═══════════
+  { id: 36, title: 'MoveC - Movimiento Circular', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 37, title: 'Offs() - Desfase de Puntos', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 38, title: 'Aproximacion Segura', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 39, title: 'Robtarget - Estructura de Datos', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 40, title: 'Hombre Muerto (Enabling Device)', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 41, title: 'Codigo Completo del Examen', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'code' },
+  { id: 42, title: 'Tips para el Examen', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'interactive' },
+  { id: 43, title: 'Quiz: Examen Practico', section: 'Examen', sectionColor: 'from-fuchsia-500 to-pink-500', type: 'quiz' },
+  // ═══════════ FIN NUEVA SECCION ═══════════
+
+  { id: 44, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'content' },
+  { id: 45, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-500 to-zinc-500', type: 'quiz' },
 ];
 
 export const sections = [
@@ -65,7 +76,8 @@ export const sections = [
   { name: 'Calibracion', color: 'from-rose-500 to-pink-500', startId: 21, icon: '⚙️' },
   { name: 'Transferencia', color: 'from-red-600 to-orange-600', startId: 24, icon: '📡' },
   { name: 'Figuras', color: 'from-lime-500 to-green-500', startId: 32, icon: '📏' },
-  { name: 'Repaso', color: 'from-slate-500 to-zinc-500', startId: 34, icon: '🏆' },
+  { name: 'Examen', color: 'from-fuchsia-500 to-pink-500', startId: 36, icon: '📝' },
+  { name: 'Repaso', color: 'from-slate-500 to-zinc-500', startId: 44, icon: '🏆' },
 ];
 
 // ---- QUIZ DATA ----
@@ -80,7 +92,7 @@ export interface QuizQuestion {
 export const quizMovimientos: QuizQuestion[] = [
   {
     question: 'Cual es el tipo de movimiento que mueve cada articulacion de manera independiente?',
-    options: ['Movimiento Lineal', 'Movimiento de Ejes (Joint)', 'Movimiento de Reorientacion', 'Movimiento Circular'],
+    options: ['Movimiento Lineal', 'Movimiento de Ejes (Joint)', 'Movimiento de Reorientacion', 'Movimiento Circular (MoveC)'],
     correct: 1,
     explanation: 'El movimiento de ejes (Joint) permite mover cada articulacion del manipulador de manera independiente.',
   },
@@ -281,13 +293,65 @@ export const quizFinal: QuizQuestion[] = [
   },
 ];
 
+export const quizExamen: QuizQuestion[] = [
+  {
+    question: 'Cuantos puntos necesita MoveC para definir un arco circular?',
+    options: ['1 punto (el de destino)', '2 puntos (CirPoint y ToPoint)', '3 puntos (P1, CirPoint, ToPoint)', '0 puntos, es automatico'],
+    correct: 1,
+    explanation: 'MoveC necesita 2 puntos: CirPoint (punto intermedio por donde pasa el arco) y ToPoint (punto destino). El punto de inicio P1 es la posicion actual del robot.',
+  },
+  {
+    question: 'Que hace la funcion Offs(P_inicio, 20, 0, 0)?',
+    options: ['Mueve 20mm en Z', 'Mueve 20mm en X', 'Rota 20 grados', 'No hace nada'],
+    correct: 1,
+    explanation: 'Offs(punto, X, Y, Z) desfasa un punto. Offs(P_inicio, 20, 0, 0) desplaza 20mm en el eje X respecto a P_inicio.',
+  },
+  {
+    question: 'Por que se usa una aproximacion segura (20mm arriba) antes de tocar la superficie?',
+    options: ['Porque el robot no sabe donde esta', 'Para evitar colisiones y tener tiempo de reaccion', 'Porque es mas rapido', 'No es necesario'],
+    correct: 1,
+    explanation: 'La aproximacion segura permite acercarse rapido (MoveJ) y luego descender lento (MoveL fine) al contacto, evitando colisiones violentas.',
+  },
+  {
+    question: 'Que componentes contiene un robtarget ademas de X, Y, Z?',
+    options: ['Solo las coordenadas', 'Orientacion (Q1-Q4), Configuracion (cf1,cf4,cf6), Ejes externos', 'Velocidad y zona', 'Nombre y tipo'],
+    correct: 1,
+    explanation: 'Un robtarget completo incluye: Posicion (X,Y,Z), Orientacion (Q1,Q2,Q3,Q4), Configuracion (cf1,cf4,cf6) y Ejes externos (epos).',
+  },
+  {
+    question: 'Que sucede si aprietas el enabling device (hombre muerto) a FONDO?',
+    options: ['El robot se mueve mas rapido', 'El robot se detiene (PARADA)', 'No pasa nada', 'El robot cambia de modo'],
+    correct: 1,
+    explanation: 'Si aprietas el enabling device a fondo, el robot se detiene inmediatamente. Solo funciona a la mitad de su recorrido.',
+  },
+  {
+    question: 'A que velocidad se recomienda la PRIMERA ejecucion de un programa en el robot real?',
+    options: ['100%', '50%', '7%', '25%'],
+    correct: 2,
+    explanation: 'La primera ejecucion debe ser al 7% de velocidad nominal para poder reaccionar ante cualquier imprevisto de forma segura.',
+  },
+  {
+    question: 'Cual es la ventaja de usar Offs() para dibujar un cuadrado de 20x20mm?',
+    options: ['El robot dibuja mas rapido', 'Solo necesitas grabar 1 punto y calculas los demas', 'No necesitas herramienta', 'El cuadrado sale perfecto automaticamente'],
+    correct: 1,
+    explanation: 'Con Offs(), solo grabas P_inicio y calculas los demas vertices sumando desfases (+20mm en X, +20mm en Y), ahorrando tiempo y errores.',
+  },
+  {
+    question: 'Que instruccion se usa para retirarse 20mm de la superficie despues de dibujar?',
+    options: ['MoveJ Offs(P, 0, 0, 20), v200, z10, tool1 \\WObj:=wPina;', 'MoveL Offs(P, 0, 0, 20), v100, fine, tool1 \\WObj:=wPina;', 'MoveC Offs(P, 0, 0, 20), v100, fine, tool1 \\WObj:=wPina;', 'WaitTime 20;'],
+    correct: 1,
+    explanation: 'Se usa MoveL con Offs(P, 0, 0, 20) para subir 20mm de la superficie con movimiento lineal y zona fine.',
+  },
+];
+
 export const quizMap: Record<number, QuizQuestion[]> = {
   6: quizMovimientos,
   12: quizCoordenadas,
   18: quizWorkObjects,
   23: quizCalibracion,
   31: quizTransferencia,
-  35: quizFinal,
+  43: quizExamen,
+  45: quizFinal,
 };
 
 // ---- CODE EXERCISE DATA ----
@@ -408,6 +472,29 @@ export const codeExercises: Record<number, CodeExercise[]> = {
     },
   ],
   // ═══════════ FIN NUEVOS EJERCICIOS ═══════════
+  41: [
+    {
+      title: 'Codigo del examen: cuadrado con arco',
+      description: 'Completa el codigo que el profesor espera ver en el examen para dibujar un cuadrado con arco.',
+      template: `PROC main()
+  MoveJ Offs(P_inicio, 0, 0, __B1__), v100, fine, toolPina
+      \\WObj:=wPina;
+  MoveL P_inicio, v50, fine, toolPina \\WObj:=wPina;
+  MoveL Offs(P_inicio, 20, 0, 0), v100, z1, toolPina
+      \\WObj:=wPina;
+  __B2__ P_medio, P_fin, v100, fine, toolPina
+      \\WObj:=wPina;
+  MoveL Offs(P_fin, 0, 0, __B3__), v100, fine, toolPina
+      \\WObj:=wPina;
+ENDPROC`,
+      blanks: [
+        { id: 'B1', answer: '20', options: ['10', '20', '30', '50'] },
+        { id: 'B2', answer: 'MoveC', options: ['MoveJ', 'MoveL', 'MoveC', 'MoveA'] },
+        { id: 'B3', answer: '20', options: ['10', '20', '30', '50'] },
+      ],
+      hint: 'Aproximacion 20mm arriba, MoveC para el arco, retirada 20mm arriba.',
+    },
+  ],
   33: [
     {
       title: 'Parametros de velocidad y zona',
