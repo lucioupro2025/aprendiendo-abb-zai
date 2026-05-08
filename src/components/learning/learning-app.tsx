@@ -165,7 +165,7 @@ export function LearningApp() {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-5">
-        <img src="/logo-pinnapp.png" alt="Pinnapp" className="size-9 rounded-lg object-contain shrink-0" />
+        <img src="/aprendiendo-abb-zai/logo-pinnapp.png" alt="Pinnapp" className="size-9 rounded-lg object-contain shrink-0" />
         <div className="min-w-0">
           <h2 className="text-base font-bold text-white truncate">Pinnapp</h2>
           <p className="text-xs text-slate-400 truncate">Aprendizaje Pro</p>
