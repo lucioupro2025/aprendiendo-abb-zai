@@ -7,29 +7,29 @@ import { quizCoordenadas } from '@/lib/slide-data';
 /* ───────────────────────── SLIDE 7 ───────────────────────── */
 export function SlideCoordenadasOverview() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Sistemas de Coordenadas</h2>
-      <p className="text-sm text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Sistemas de Coordenadas</h2>
+      <p className="text-lg text-muted-foreground leading-relaxed">
         Los sistemas de coordenadas permiten definir la posicion y orientacion del robot en el espacio 3D usando un marco de referencia.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
         {[
-          { name: 'Sistema Base', desc: 'Origen en la base del robot. X hacia la herramienta, Y a la izquierda, Z hacia arriba.', color: 'from-blue-500 to-cyan-500' },
-          { name: 'Sistema Mundo', desc: 'Referencia fija absoluta. Usado cuando el robot se desplaza o hay multiples robots.', color: 'from-emerald-500 to-teal-500' },
-          { name: 'Sistema Objeto', desc: 'Origen en el objeto de trabajo. Los puntos se mueven con el objeto si se reubica.', color: 'from-amber-500 to-yellow-500' },
-          { name: 'Sistema Herramienta', desc: 'Vinculado al extremo del robot. Define la posicion y orientacion de la herramienta.', color: 'from-violet-500 to-purple-500' },
+          { name: 'Sistema Base', desc: 'Origen en la base del robot. X hacia la herramienta, Y a la izquierda, Z hacia arriba.', color: 'from-[#605DFF] to-[#00D390]' },
+          { name: 'Sistema Mundo', desc: 'Referencia fija absoluta. Usado cuando el robot se desplaza o hay multiples robots.', color: 'from-[#00D390] to-[#F43098]' },
+          { name: 'Sistema Objeto', desc: 'Origen en el objeto de trabajo. Los puntos se mueven con el objeto si se reubica.', color: 'from-[#F43098] to-[#605DFF]' },
+          { name: 'Sistema Herramienta', desc: 'Vinculado al extremo del robot. Define la posicion y orientacion de la herramienta.', color: 'from-[#605DFF] to-[#F43098]' },
         ].map((s) => (
-          <Card key={s.name} className="border-0 shadow-sm overflow-hidden">
-            <div className={`h-1 bg-gradient-to-r ${s.color}`} />
-            <CardContent className="p-4">
-              <h3 className="font-semibold text-sm mb-1">{s.name}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+          <Card key={s.name} className="border-0 shadow-lg overflow-hidden bg-card/50">
+            <div className={`h-1.5 bg-gradient-to-r ${s.color}`} />
+            <CardContent className="p-5">
+              <h3 className="font-bold text-lg mb-2 text-primary">{s.name}</h3>
+              <p className="text-base text-muted-foreground leading-relaxed">{s.desc}</p>
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
-        <strong>Nota:</strong> Cada fabricante puede asignar nombres diferentes a estos sistemas. Siempre consulta la documentacion del robot.
+      <div className="p-5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-base md:text-lg font-medium italic">
+        <strong>Nota:</strong> Cada fabricante puede asignar nombres diferentes a estos sistemas. Siempre consulta la documentacion oficial.
       </div>
     </div>
   );
@@ -38,9 +38,9 @@ export function SlideCoordenadasOverview() {
 /* ───────────────────────── SLIDE 8 ───────────────────────── */
 export function SlideBaseSystem() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Sistema Base</h2>
-      <p className="text-sm text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Sistema Base</h2>
+      <p className="text-lg text-muted-foreground">
         El origen se ubica en la base del robot. Los ejes se definen segun las especificaciones del fabricante.
       </p>
       <Card className="border-0 shadow-sm">
@@ -92,9 +92,9 @@ export function SlideBaseSystem() {
 /* ───────────────────────── SLIDE 9 ───────────────────────── */
 export function SlideWorldSystem() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Sistema Mundo</h2>
-      <p className="text-sm text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Sistema Mundo</h2>
+      <p className="text-lg text-muted-foreground">
         Define la posicion y orientacion absolutas de los objetos en el espacio 3D usando un punto de referencia fijo.
       </p>
       <Card className="border-0 shadow-sm">
@@ -125,15 +125,16 @@ export function SlideWorldSystem() {
           </svg>
         </CardContent>
       </Card>
-      <div className="space-y-2 text-sm">
-        <p><strong>¿Para que sirve si el robot es fijo?</strong></p>
-        <ul className="space-y-1 text-muted-foreground text-xs">
-          <li>• Cuando el manipulador se desplaza en una direccion</li>
-          <li>• Cuando varios robots trabajan con un mismo objeto</li>
-          <li>• Para coordinar tareas dentro de una misma celda</li>
+      <div className="space-y-4 text-base md:text-lg">
+        <p className="font-bold text-primary">¿Para que sirve si el robot es fijo?</p>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-muted-foreground">
+          <li className="p-3 bg-muted/30 rounded-lg">• Cuando el manipulador se desplaza</li>
+          <li className="p-3 bg-muted/30 rounded-lg">• Cuando hay multiples robots</li>
+          <li className="p-3 bg-muted/30 rounded-lg">• Para coordinar tareas complejas</li>
+          <li className="p-3 bg-muted/30 rounded-lg">• Celdas de trabajo integradas</li>
         </ul>
-        <p className="text-xs text-muted-foreground pt-1">
-          Por lo general, el sistema mundo coincide con el sistema base si no fue modificado.
+        <p className="text-sm text-muted-foreground pt-1 italic">
+          Por lo general, el sistema mundo coincide con el sistema base si no fue modificado explícitamente.
         </p>
       </div>
     </div>
@@ -143,10 +144,10 @@ export function SlideWorldSystem() {
 /* ───────────────────────── SLIDE 10 ───────────────────────── */
 export function SlideObjectSystem() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Sistema Objeto (WorkObject)</h2>
-      <p className="text-sm text-muted-foreground">
-        Define un origen dentro del objeto de trabajo. Permite especificar posiciones en relacion al propio sistema del objeto, de modo que si el objeto se mueve, los puntos se mueven con el.
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Sistema Objeto (WorkObject)</h2>
+      <p className="text-lg text-muted-foreground leading-relaxed">
+        Define un origen dentro del objeto de trabajo. Los puntos se mueven con el objeto si se reubica.
       </p>
       <Card className="border-0 shadow-sm">
         <CardContent className="p-3">
@@ -178,8 +179,8 @@ export function SlideObjectSystem() {
           </svg>
         </CardContent>
       </Card>
-      <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm">
-        <strong>Ventaja clave:</strong> Al conectar los puntos al objeto de trabajo y este a la mesa, si movemos o rotamos la mesa, los puntos P1-P4 se mueven automaticamente con ella. No hay que reprogramar!
+      <div className="p-5 rounded-xl bg-[#00D390]/10 border border-[#00D390]/20 text-foreground text-base md:text-lg">
+        <strong className="text-[#00D390]">Ventaja clave:</strong> Al conectar los puntos al objeto de trabajo y este a la mesa, si movemos o rotamos la mesa, los puntos P1-P4 se mueven automaticamente con ella. <span className="font-bold">¡No hay que reprogramar!</span>
       </div>
     </div>
   );
@@ -188,9 +189,9 @@ export function SlideObjectSystem() {
 /* ───────────────────────── SLIDE 11 ───────────────────────── */
 export function SlideToolSystem() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Sistema Herramienta</h2>
-      <p className="text-sm text-muted-foreground">
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Sistema Herramienta</h2>
+      <p className="text-lg text-muted-foreground">
         Definido en la herramienta o extremo del robot. Permite especificar la posicion y orientacion de la herramienta en el espacio 3D.
       </p>
       <Card className="border-0 shadow-sm">
@@ -217,14 +218,14 @@ export function SlideToolSystem() {
           </svg>
         </CardContent>
       </Card>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-        <div className="p-3 rounded-lg bg-muted/50 border">
-          <strong>TCP (Tool Center Point):</strong>
-          <p className="text-xs text-muted-foreground mt-1">Punto de referencia en la herramienta desde donde se calculan todas las posiciones.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base">
+        <div className="p-5 rounded-xl bg-card/50 border-2 border-primary/20 shadow-lg">
+          <strong className="text-primary text-lg block mb-1">TCP (Tool Center Point)</strong>
+          <p className="text-muted-foreground">Punto de referencia en la herramienta desde donde se calculan todas las posiciones y orientaciones.</p>
         </div>
-        <div className="p-3 rounded-lg bg-muted/50 border">
-          <strong>Calibracion de herramienta:</strong>
-          <p className="text-xs text-muted-foreground mt-1">Se debe definir la posicion del TCP respecto a la interfase mecanica de la muneca.</p>
+        <div className="p-5 rounded-xl bg-card/50 border-2 border-primary/20 shadow-lg">
+          <strong className="text-primary text-lg block mb-1">Calibracion</strong>
+          <p className="text-muted-foreground">Es fundamental definir la posicion del TCP respecto a la interfase mecanica para asegurar la precision.</p>
         </div>
       </div>
     </div>

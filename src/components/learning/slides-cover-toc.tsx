@@ -8,7 +8,7 @@ export function SlideCover() {
   return (
     <div className="flex items-center justify-center min-h-[70vh] p-4">
       <div className="w-full max-w-xl">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-red-500 to-rose-600 text-white p-8 md:p-12 shadow-2xl">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#605DFF] to-[#00D390] text-white p-8 md:p-12 shadow-2xl">
           <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-64 h-64 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-48 h-48 rounded-full bg-white/10 blur-xl" />
 
@@ -24,8 +24,8 @@ export function SlideCover() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
-                Robot ABB IRB1100
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-2">
+                Pinnapp
               </h1>
               <p className="text-lg text-white/80 font-medium">
                 Guia Didactica Interactiva de Programacion

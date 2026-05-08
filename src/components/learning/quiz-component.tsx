@@ -49,21 +49,21 @@ export function QuizComponent({ questions, label }: Props) {
   if (done) {
     const pct = Math.round((score / total) * 100);
     return (
-      <Card className="border-0 shadow-sm">
-        <CardContent className="p-6 flex flex-col items-center gap-4">
-          <div className="size-20 rounded-full bg-amber-100 flex items-center justify-center">
-            <Trophy className="size-10 text-amber-500" />
+      <Card className="border-0 shadow-xl bg-card/50">
+        <CardContent className="p-8 flex flex-col items-center gap-6">
+          <div className="size-24 rounded-full bg-primary/10 flex items-center justify-center">
+            <Trophy className="size-12 text-primary" />
           </div>
-          <h3 className="text-xl font-bold">{label ?? 'Quiz'} Completado</h3>
-          <div className="text-3xl font-extrabold">
+          <h3 className="text-2xl md:text-3xl font-bold">{label ?? 'Quiz'} Completado</h3>
+          <div className="text-5xl font-black text-primary">
             {score}/{total}
           </div>
-          <Badge variant={pct >= 60 ? 'default' : 'destructive'} className="text-sm px-3 py-1">
+          <Badge variant={pct >= 60 ? 'default' : 'destructive'} className="text-lg px-4 py-1.5">
             {pct}% {pct >= 60 ? 'Aprobado' : 'Intentalo de nuevo'}
           </Badge>
-          <Button variant="outline" onClick={handleRetry} className="gap-2 mt-2">
-            <RotateCcw className="size-4" />
-            Intentar de nuevo
+          <Button size="lg" onClick={handleRetry} className="gap-2 mt-4 w-full sm:w-auto h-12 text-lg">
+            <RotateCcw className="size-5" />
+            Reintentar
           </Button>
         </CardContent>
       </Card>
@@ -71,30 +71,30 @@ export function QuizComponent({ questions, label }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {label && (
         <div className="flex items-center justify-between">
-          <Badge variant="secondary">{label}</Badge>
-          <span className="text-sm text-muted-foreground">
-            Pregunta {idx + 1} de {total}
+          <Badge variant="outline" className="text-sm border-primary/30 text-primary px-3 py-1">{label}</Badge>
+          <span className="text-base font-medium text-muted-foreground">
+            Pregunta <span className="text-primary font-bold">{idx + 1}</span> de {total}
           </span>
         </div>
       )}
 
-      <Card className="border-0 shadow-sm">
-        <CardContent className="p-5 space-y-4">
-          <p className="font-semibold text-base">{q.question}</p>
+      <Card className="border-0 shadow-xl bg-card/50">
+        <CardContent className="p-6 md:p-8 space-y-6">
+          <p className="font-bold text-xl md:text-2xl leading-tight">{q.question}</p>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             {q.options.map((opt, i) => {
               const isCorrect = i === q.correct;
               const isSelected = i === selected;
-              let bg = 'bg-muted/50 hover:bg-muted';
+              let bg = 'bg-muted/30 border-transparent hover:border-primary/50';
               if (confirmed) {
-                if (isCorrect) bg = 'bg-emerald-100 border-emerald-500';
-                else if (isSelected) bg = 'bg-red-100 border-red-500';
+                if (isCorrect) bg = 'bg-[#00D390]/20 border-[#00D390] text-[#00D390]';
+                else if (isSelected) bg = 'bg-destructive/20 border-destructive text-destructive';
               } else if (isSelected) {
-                bg = 'bg-primary/10 border-primary';
+                bg = 'bg-primary/20 border-primary text-primary';
               }
 
               return (
@@ -102,15 +102,15 @@ export function QuizComponent({ questions, label }: Props) {
                   key={i}
                   onClick={() => !confirmed && setSelected(i)}
                   disabled={confirmed}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${bg} ${!confirmed && 'cursor-pointer'}`}
+                  className={`w-full text-left p-4 md:p-5 rounded-xl border-2 transition-all text-base md:text-lg ${bg} ${!confirmed && 'active:scale-95'}`}
                 >
-                  <span className="font-medium mr-2">{String.fromCharCode(65 + i)}.</span>
-                  {opt}
+                  <span className="font-black mr-3 opacity-60">{String.fromCharCode(65 + i)}.</span>
+                  <span className="font-medium">{opt}</span>
                   {confirmed && isCorrect && (
-                    <CheckCircle2 className="inline size-4 text-emerald-600 ml-2" />
+                    <CheckCircle2 className="inline size-6 text-[#00D390] ml-auto float-right" />
                   )}
                   {confirmed && isSelected && !isCorrect && (
-                    <XCircle className="inline size-4 text-red-600 ml-2" />
+                    <XCircle className="inline size-6 text-destructive ml-auto float-right" />
                   )}
                 </button>
               );
@@ -118,25 +118,21 @@ export function QuizComponent({ questions, label }: Props) {
           </div>
 
           {confirmed && (
-            <div className={`p-3 rounded-lg text-sm ${selected === q.correct ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`}>
-              <div className="flex items-start gap-2">
-                {selected === q.correct ? (
-                  <CheckCircle2 className="size-4 mt-0.5 shrink-0" />
-                ) : (
-                  <XCircle className="size-4 mt-0.5 shrink-0" />
-                )}
-                <span>{q.explanation}</span>
+            <div className={`p-5 rounded-xl border-l-4 text-base md:text-lg ${selected === q.correct ? 'bg-[#00D390]/10 border-l-[#00D390] text-[#00D390]' : 'bg-destructive/10 border-l-destructive text-destructive'}`}>
+              <div className="flex items-start gap-3">
+                <Lightbulb className="size-6 mt-0.5 shrink-0" />
+                <span className="font-medium">{q.explanation}</span>
               </div>
             </div>
           )}
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end pt-4">
             {!confirmed ? (
-              <Button onClick={handleConfirm} disabled={selected === null} size="sm">
+              <Button onClick={handleConfirm} disabled={selected === null} size="lg" className="w-full sm:w-auto h-12 text-lg font-bold">
                 Confirmar
               </Button>
             ) : (
-              <Button onClick={handleNext} size="sm">
+              <Button onClick={handleNext} size="lg" className="w-full sm:w-auto h-12 text-lg font-bold">
                 {idx + 1 >= total ? 'Ver resultado' : 'Siguiente pregunta'}
               </Button>
             )}

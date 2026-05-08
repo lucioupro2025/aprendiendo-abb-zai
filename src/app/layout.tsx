@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ABB IRB1100 - Aprendizaje Interactivo de Robotica",
-  description: "Guia didactica interactiva para aprender a programar el robot ABB IRB1100. Incluye modos de movimiento, sistemas de coordenadas, programacion RAPID, objetos de trabajo, trayectorias y calibracion.",
-  keywords: ["ABB IRB1100", "Robotica", "RAPID", "Programacion de Robots", "Movimientos", "Coordenadas", "Calibracion"],
-  authors: [{ name: "Guruweb" }],
+  title: "PinnaLMS - Aprendizaje Interactivo de Robotica",
+  description: "Guia didactica interactiva para aprender a programar robots industriales. Incluye modos de movimiento, sistemas de coordenadas, programacion RAPID, objetos de trabajo, trayectorias y calibracion.",
+  keywords: ["PinnaLMS", "Robotica", "ABB", "RAPID", "Programacion de Robots", "Movimientos", "Coordenadas", "Calibracion"],
+  authors: [{ name: "Fede Pinna" }],
   openGraph: {
-    title: "ABB IRB1100 - Aprendizaje Interactivo",
-    description: "Guia didactica interactiva para programar el robot ABB IRB1100",
+    title: "PinnaLMS - Aprendizaje Interactivo",
+    description: "Guia didactica interactiva para programar robots industriales",
     type: "website",
   },
 };

@@ -9,39 +9,39 @@ import { quizWorkObjects, quizCalibracion, quizFinal, codeExercises } from '@/li
 /* ═══════════════════ SLIDE 13: MoveJ y MoveL ═══════════════════ */
 export function SlideMoveJMoveL() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Instrucciones MoveJ y MoveL</h2>
-      <p className="text-sm text-muted-foreground">Las dos instrucciones principales para mover el robot en RAPID.</p>
+    <div className="space-y-6 p-4 md:p-8 max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary">Instrucciones MoveJ y MoveL</h2>
+      <p className="text-lg text-muted-foreground leading-relaxed">Las dos instrucciones principales para mover el robot en lenguaje RAPID.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Card className="border-0 shadow-sm">
-          <div className="h-1 bg-gradient-to-r from-orange-500 to-amber-500" />
-          <CardContent className="p-4 space-y-2">
-            <h3 className="font-bold text-orange-600">MoveJ (Joint)</h3>
-            <div className="bg-slate-900 rounded-lg p-3 font-mono text-xs text-amber-300">
+        <Card className="border-0 shadow-lg bg-card/50 overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-[#605DFF] to-[#00D390]" />
+          <CardContent className="p-6 space-y-3">
+            <h3 className="font-bold text-xl text-primary">MoveJ (Joint)</h3>
+            <div className="bg-slate-950 rounded-xl p-4 font-mono text-sm text-[#00D390] border border-primary/20">
               MoveJ p10, v500, z50, tool1;
             </div>
-            <ul className="text-xs text-muted-foreground space-y-1">
-              <li>• Movimiento rapido en espacio de articulaciones</li>
-              <li>• La trayectoria no es predecible</li>
+            <ul className="text-base text-muted-foreground space-y-2">
+              <li>• Movimiento rapido entre articulaciones</li>
+              <li>• La trayectoria no es predecible (curva)</li>
               <li>• No requiere cinematica inversa al destino</li>
-              <li>• Ideal para posiciones de inicio/fin</li>
+              <li>• Ideal para posiciones de transicion segura</li>
             </ul>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-sm">
-          <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
-          <CardContent className="p-4 space-y-2">
-            <h3 className="font-bold text-emerald-600">MoveL (Linear)</h3>
-            <div className="bg-slate-900 rounded-lg p-3 font-mono text-xs text-amber-300">
+        <Card className="border-0 shadow-lg bg-card/50 overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-[#00D390] to-[#F43098]" />
+          <CardContent className="p-6 space-y-3">
+            <h3 className="font-bold text-xl text-[#00D390]">MoveL (Linear)</h3>
+            <div className="bg-slate-950 rounded-xl p-4 font-mono text-sm text-[#00D390] border border-primary/20">
               MoveL p20, v200, fine, tool1;
             </div>
-            <ul className="text-xs text-muted-foreground space-y-1">
+            <ul className="text-base text-muted-foreground space-y-2">
               <li>• Movimiento en linea recta</li>
               <li>• Trayectoria predecible y precisa</li>
               <li>• Requiere cinematica inversa</li>
-              <li>• Ideal para soldadura, pegado, trazado</li>
+              <li>• Ideal para soldadura y trazado</li>
             </ul>
           </CardContent>
         </Card>
@@ -781,25 +781,20 @@ export function SlideDrawingRobot() {
 /* ═══════════════════ SLIDE 26: Resumen ═══════════════════ */
 export function SlideSummary() {
   return (
-    <div className="space-y-4 p-4 md:p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold">Resumen General</h2>
+    <div className="space-y-6 p-4 md:p-8 max-w-5xl mx-auto pb-20">
+      <h2 className="text-4xl font-extrabold text-primary text-center mb-8">Resumen General</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          { section: 'Movimientos', color: 'from-orange-500 to-red-500', points: ['Joint: mueve ejes independiente', 'Lineal: movimiento en linea recta', 'Reorientacion: gira la herramienta'] },
-          { section: 'Coordenadas', color: 'from-emerald-500 to-teal-500', points: ['Base: origen en la base del robot', 'Mundo: referencia absoluta', 'Objeto: vinculado al workobject', 'Herramienta: en el TCP'] },
-          { section: 'RAPID', color: 'from-violet-500 to-purple-500', points: ['MoveJ: movimiento joint', 'MoveL: movimiento lineal', 'Parametros: velocidad, zona, herramienta'] },
-          { section: 'Work Objects', color: 'from-sky-500 to-cyan-500', points: ['WObj personalizado vs wobj0', 'Puntos se mueven con el objeto', 'Parametro \\WObj en MoveJ/MoveL'] },
-          { section: 'Trayectorias', color: 'from-amber-500 to-yellow-500', points: ['Secuencia ordenada de puntos', 'Joint para transicion, Lineal para trabajo', 'Zona fine para precision'] },
-          { section: 'Calibracion', color: 'from-rose-500 to-pink-500', points: ['Encoder no cuenta vueltas del motor', 'RAM + Pila mantienen la cuenta', 'Calibrar: marcas → menu → actualizar'] },
-          { section: 'Transferencia', color: 'from-red-600 to-orange-600', points: ['Ethernet al Puerto de Servicio (DHCP)', 'Grant + Backup antes de cargar', 'Reemplazar IDs virtuales por reales', 'LoadData: masa y CG nunca en 0', 'Alinear perpendicular + velocidad 7%'] },
-          { section: 'Figuras', color: 'from-lime-500 to-green-500', points: ['h = L×√3/2, r = L/3', 'Vertices relativos al centro', 'Usar Offs para desfase'] },
-          { section: 'Examen', color: 'from-fuchsia-500 to-pink-500', points: ['MoveC: 2 params (CirPoint, ToPoint)', 'Offs() para cuadrado 20x20', 'Aproximacion segura: MoveJ aire → MoveL contacto', 'Hombre muerto: mitad presionado = OK', 'Robtarget: posicion + orientacion + config'] },
-          { section: 'Repaso', color: 'from-slate-500 to-zinc-500', points: ['WaitTime para esperas', 'Offs para desfase de puntos', 'PROC/ENDPROC estructura RAPID'] },
+          { section: 'Movimientos', color: 'from-[#605DFF] to-[#00D390]', points: ['Joint: ejes independientes', 'Lineal: trayectoria recta', 'Reorientacion: gira la herramienta'] },
+          { section: 'Coordenadas', color: 'from-[#00D390] to-[#F43098]', points: ['Base: origen en robot', 'Mundo: referencia absoluta', 'Objeto: vinculado al WObj', 'Herramienta: en el TCP'] },
+          { section: 'RAPID', color: 'from-[#F43098] to-[#605DFF]', points: ['MoveJ: rapido, no predecible', 'MoveL: preciso, linea recta', 'Parametros: v, z, tool, wobj'] },
+          { section: 'Work Objects', color: 'from-[#605DFF] to-[#F43098]', points: ['WObj vs wobj0', 'Puntos se mueven con el objeto', 'Parametro \\WObj en Move'] },
+          { section: 'Trayectorias', color: 'from-[#00D390] to-[#F43098]', points: ['Secuencia de robtargets', 'Joint para transicion', 'Lineal para trabajo', 'fine para precision'] },
+          { section: 'Calibracion', color: 'from-[#605DFF] to-[#00D390]', points: ['Encoder no cuenta vueltas', 'RAM + Pila mantiene cuenta', 'Marcas fisicas para el cero'] },
+          { section: 'Transferencia', color: 'from-[#F43098] to-[#00D390]', points: ['Puerto de Servicio (DHCP)', 'Grant + Backup de seguridad', 'Ajustes finales en el robot'] },
+          { section: 'Examen', color: 'from-[#605DFF] to-[#F43098]', points: ['MoveC: trayectoria circular', 'Offs(): desfase de puntos', 'Hombre muerto: seguridad', 'Robtarget: datos de posicion'] },
         ].map((s) => (
-          <Card key={s.section} className="border-0 shadow-sm overflow-hidden">
-            <div className={`h-1 bg-gradient-to-r ${s.color}`} />
-            <CardContent className="p-3">
               <h4 className="font-semibold text-sm mb-1.5">{s.section}</h4>
               <ul className="space-y-0.5">
                 {s.points.map((p, i) => (

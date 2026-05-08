@@ -165,10 +165,10 @@ export function LearningApp() {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-5">
-        <img src="/logo-guruweb.png" alt="Guruweb" className="size-9 rounded-lg object-contain shrink-0" />
+        <img src="/logo-pinnapp.png" alt="Pinnapp" className="size-9 rounded-lg object-contain shrink-0" />
         <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-white truncate">ABB IRB1100</h2>
-          <p className="text-xs text-slate-400 truncate">Aprendizaje Interactivo</p>
+          <h2 className="text-base font-bold text-white truncate">Pinnapp</h2>
+          <p className="text-xs text-slate-400 truncate">Aprendizaje Pro</p>
         </div>
       </div>
 
@@ -283,15 +283,26 @@ export function LearningApp() {
         aria-label="Navegacion de diapositivas"
       >
         <div className="flex items-center gap-1.5 flex-1">
-          <Button variant="outline" size="sm" onClick={goPrev} disabled={currentSlide === 0} className="gap-1 shrink-0">
-            <ChevronLeft className="size-4" />
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={goPrev}
+            disabled={currentSlide === 0}
+            className="flex-1 md:flex-none gap-2 h-12 text-base font-semibold"
+          >
+            <ChevronLeft className="size-5" />
             <span className="hidden sm:inline">Anterior</span>
           </Button>
-          <Button variant="ghost" size="icon" className="lg:hidden shrink-0" onClick={() => setSidebarOpen(true)}>
-            <Menu className="size-4" />
+          <Button
+            onClick={goNext}
+            disabled={currentSlide === slides.length - 1}
+            className="flex-1 md:flex-none gap-2 h-12 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <span className="hidden sm:inline">Siguiente</span>
+            <ChevronRight className="size-5" />
           </Button>
         </div>
-        <div className="flex items-center gap-2 px-2">
+        <div className="hidden md:flex items-center gap-2 px-2">
           <span className="text-sm font-medium tabular-nums">{currentSlide + 1}</span>
           <span className="text-sm text-muted-foreground">/</span>
           <span className="text-sm tabular-nums text-muted-foreground">{total}</span>
