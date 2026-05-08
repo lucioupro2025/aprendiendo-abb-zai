@@ -795,11 +795,15 @@ export function SlideSummary() {
           { section: 'Transferencia', color: 'from-[#F43098] to-[#00D390]', points: ['Puerto de Servicio (DHCP)', 'Grant + Backup de seguridad', 'Ajustes finales en el robot'] },
           { section: 'Examen', color: 'from-[#605DFF] to-[#F43098]', points: ['MoveC: trayectoria circular', 'Offs(): desfase de puntos', 'Hombre muerto: seguridad', 'Robtarget: datos de posicion'] },
         ].map((s) => (
-              <h4 className="font-semibold text-sm mb-1.5">{s.section}</h4>
-              <ul className="space-y-0.5">
+          <Card key={s.section} className="border-0 shadow-lg overflow-hidden bg-card/50">
+            <div className={`h-2 bg-gradient-to-r ${s.color}`} />
+            <CardContent className="p-6">
+              <h3 className="font-bold text-xl mb-4 text-primary">{s.section}</h3>
+              <ul className="space-y-2">
                 {s.points.map((p, i) => (
-                  <li key={i} className="text-xs text-muted-foreground flex gap-1.5">
-                    <span className="text-primary mt-0.5">•</span>{p}
+                  <li key={i} className="flex items-start gap-2 text-base text-muted-foreground leading-snug">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{p}</span>
                   </li>
                 ))}
               </ul>
