@@ -13,15 +13,12 @@ export function SlideCover() {
           <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-48 h-48 rounded-full bg-white/10 blur-xl" />
 
           <div className="relative z-10 flex flex-col items-center text-center gap-5">
-            <div className="size-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <svg viewBox="0 0 48 48" className="size-12" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="8" y="36" width="32" height="8" rx="2" />
-                <line x1="24" y1="36" x2="24" y2="16" />
-                <line x1="24" y1="16" x2="36" y2="10" />
-                <circle cx="24" cy="36" r="3" />
-                <circle cx="24" cy="16" r="3" />
-                <circle cx="36" cy="10" r="2" />
-              </svg>
+            <div className="size-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center p-3">
+              <img 
+                src="/aprendiendo-abb-zai/logo-pinnapp.png" 
+                alt="Pinnapp Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-2">
@@ -36,7 +33,7 @@ export function SlideCover() {
                 10 Secciones
               </Badge>
               <Badge className="bg-white/20 text-white hover:bg-white/30 border-0 px-3 py-1">
-                7 Quizzes
+                8 Quizzes
               </Badge>
               <Badge className="bg-white/20 text-white hover:bg-white/30 border-0 px-3 py-1">
                 Ejercicios de Codigo
