@@ -39,6 +39,10 @@ import {
   SlideRobtarget, SlideHombreMuerto, SlideCodigoExamen,
   SlideTipsExamen, SlideQuizExamen,
 } from './slides-examen';
+import {
+  SlideExamenSingularity, SlideExamenCalibracionWObj, SlideExamenJogging,
+  SlideExamenMonitoreo, SlideExamenDefensa, SlideExamenPenalizaciones
+} from './slides-examen-nivel3';
 
 // ============================================================
 // Helpers
@@ -101,8 +105,14 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 41: return <SlideCodigoExamen />;
     case 42: return <SlideTipsExamen />;
     case 43: return <SlideQuizExamen />;
-    case 44: return <SlideSummary />;
-    case 45: return <SlideQuizFinal />;
+    case 44: return <SlideExamenSingularity />;
+    case 45: return <SlideExamenCalibracionWObj />;
+    case 46: return <SlideExamenJogging />;
+    case 47: return <SlideExamenMonitoreo />;
+    case 48: return <SlideExamenDefensa />;
+    case 49: return <SlideExamenPenalizaciones />;
+    case 50: return <SlideSummary />;
+    case 51: return <SlideQuizFinal />;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }

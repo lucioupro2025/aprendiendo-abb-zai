@@ -61,10 +61,18 @@ export const slides: SlideData[] = [
   { id: 41, title: 'Codigo Completo del Examen', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'code' },
   { id: 42, title: 'Tips para el Examen', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 43, title: 'Quiz: Examen Practico', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'quiz' },
+  
+  // --- Simulación de Examen Nivel 3 ---
+  { id: 44, title: 'Fase I: Singularity (Bloqueo)', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 45, title: 'Fase I: Calibración WObj', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 46, title: 'Fase II: Jogging Fluido', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 47, title: 'Fase III: Monitoreo Real', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 48, title: 'Fase IV: Defensa Oral', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 49, title: 'Penalizaciones y Seguridad', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'quiz' },
   // ═══════════ FIN NUEVA SECCION ═══════════
 
-  { id: 44, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'content' },
-  { id: 45, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' },
+  { id: 50, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'content' },
+  { id: 51, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' },
 ];
 
 export const sections = [
@@ -77,7 +85,7 @@ export const sections = [
   { name: 'Transferencia', color: 'from-[#F43098] to-[#00D390]', startId: 24, icon: '📡' },
   { name: 'Figuras', color: 'from-[#605DFF] to-[#F43098]', startId: 32, icon: '📏' },
   { name: 'Examen', color: 'from-[#F43098] to-[#605DFF]', startId: 36, icon: '📝' },
-  { name: 'Repaso', color: 'from-slate-800 to-slate-950', startId: 44, icon: '🏆' },
+  { name: 'Repaso', color: 'from-slate-800 to-slate-950', startId: 50, icon: '🏆' },
 ];
 
 // ---- QUIZ DATA ----
@@ -344,6 +352,39 @@ export const quizExamen: QuizQuestion[] = [
   },
 ];
 
+export const quizExamenNivel3: QuizQuestion[] = [
+  {
+    question: 'Cual es el castigo por una colision LEVE durante el examen?',
+    options: ['Reprobacion automatica', 'Penalizacion de -20 puntos', 'Advertencia verbal', 'No hay penalizacion'],
+    correct: 1,
+    explanation: 'Una colision leve (contacto excesivo con superficies) resta 20 puntos del total.',
+  },
+  {
+    question: 'Que tiempo limite tienes para completar la Fase I (Diagnostico y Calibracion)?',
+    options: ['10 minutos', '6 minutos', 'Sin limite', '15 minutos'],
+    correct: 1,
+    explanation: 'La Fase I tiene un tiempo limite de 6.0 minutos. Superarlo resta 10 puntos.',
+  },
+  {
+    question: 'Cual de estos errores implica la REPROBACION automatica?',
+    options: ['Exceso de tiempo', 'No saludar al profesor', 'Omitir el uso del Deadman (Hombre Muerto) o colision grave', 'Tardar en calibrar el WObj'],
+    correct: 2,
+    explanation: 'La omision de medidas de seguridad basicas (Deadman, E-Stop) o una colision grave causan la reprobacion automatica.',
+  },
+  {
+    question: 'Como se soluciona un bloqueo cinematico (Singularidad) al iniciar el examen?',
+    options: ['Presionando el boton de Reset', 'Cambiando a modo Lineal y moviendo el eje 1', 'Cambiando a modo Ejes (Joint) y rompiendo la alineacion de los ejes 4 y 6', 'Reiniciando el robot'],
+    correct: 2,
+    explanation: 'La singularidad se resuelve en modo Ejes (Joint), moviendo el eje 4 o 5 para que dejen de estar alineados con el eje 6.',
+  },
+  {
+    question: 'Cual es el puntaje minimo necesario para aprobar el examen?',
+    options: ['60%', '100%', '70%', '50%'],
+    correct: 2,
+    explanation: 'El criterio de aprobacion es cumplir con todas las tareas de seguridad y obtener al menos el 70% del puntaje total.',
+  },
+];
+
 export const quizMap: Record<number, QuizQuestion[]> = {
   6: quizMovimientos,
   12: quizCoordenadas,
@@ -351,7 +392,8 @@ export const quizMap: Record<number, QuizQuestion[]> = {
   23: quizCalibracion,
   31: quizTransferencia,
   43: quizExamen,
-  45: quizFinal,
+  49: quizExamenNivel3,
+  51: quizFinal,
 };
 
 // ---- CODE EXERCISE DATA ----
