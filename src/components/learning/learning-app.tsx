@@ -44,6 +44,10 @@ import {
   SlideExamenSingularity, SlideExamenCalibracionWObj, SlideExamenJogging,
   SlideExamenMonitoreo, SlideExamenDefensa, SlideExamenPenalizaciones
 } from './slides-examen-nivel3';
+import {
+  SlideTCPCalibration, SlideWObjDefinition, SlideRevCounterUpdate,
+  SlideQuizFlexPendant
+} from './slides-flexpendant';
 
 // ============================================================
 // Helpers
@@ -112,8 +116,12 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 47: return <SlideExamenMonitoreo />;
     case 48: return <SlideExamenDefensa />;
     case 49: return <SlideExamenPenalizaciones />;
-    case 50: return <SlideSummary />;
-    case 51: return <SlideQuizFinal />;
+    case 50: return <SlideTCPCalibration />;
+    case 51: return <SlideWObjDefinition />;
+    case 52: return <SlideRevCounterUpdate />;
+    case 53: return <SlideQuizFlexPendant />;
+    case 54: return <SlideSummary />;
+    case 55: return <SlideQuizFinal />;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }

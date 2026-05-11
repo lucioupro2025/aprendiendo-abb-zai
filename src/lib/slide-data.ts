@@ -68,11 +68,15 @@ export const slides: SlideData[] = [
   { id: 46, title: 'Fase II: Jogging Fluido', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 47, title: 'Fase III: Monitoreo Real', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 48, title: 'Fase IV: Defensa Oral', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
-  { id: 49, title: 'Penalizaciones y Seguridad', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'quiz' },
+  // ═══════════ NUEVA SECCION: Operación FlexPendant (Examen) ═══════════
+  { id: 50, title: 'FlexPendant: Calibración TCP', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'content' },
+  { id: 51, title: 'FlexPendant: WorkObject (3 Puntos)', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'content' },
+  { id: 52, title: 'FlexPendant: Contadores de Revolución', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'content' },
+  { id: 53, title: 'Quiz: Operación FlexPendant', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'quiz' },
   // ═══════════ FIN NUEVA SECCION ═══════════
 
-  { id: 50, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'content' },
-  { id: 51, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' },
+  { id: 54, title: 'Resumen General', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'content' },
+  { id: 55, title: 'Quiz Final', section: 'Repaso', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' },
 ];
 
 export const sections = [
@@ -85,7 +89,8 @@ export const sections = [
   { name: 'Transferencia', color: 'from-[#F43098] to-[#00D390]', startId: 24, icon: '📡' },
   { name: 'Figuras', color: 'from-[#605DFF] to-[#F43098]', startId: 32, icon: '📏' },
   { name: 'Examen', color: 'from-[#F43098] to-[#605DFF]', startId: 36, icon: '📝' },
-  { name: 'Repaso', color: 'from-slate-800 to-slate-950', startId: 50, icon: '🏆' },
+  { name: 'FlexPendant', color: 'from-[#605DFF] to-[#00D390]', startId: 50, icon: '🎮' },
+  { name: 'Repaso', color: 'from-slate-800 to-slate-950', startId: 54, icon: '🏆' },
 ];
 
 // ---- QUIZ DATA ----
@@ -385,6 +390,39 @@ export const quizExamenNivel3: QuizQuestion[] = [
   },
 ];
 
+export const quizFlexPendant: QuizQuestion[] = [
+  {
+    question: 'Qué método se usa comúnmente para definir el TCP con precisión?',
+    options: ['Método de 1 punto', 'Método de 4 puntos', 'Método de 3 puntos', 'Método automático'],
+    correct: 1,
+    explanation: 'El método de 4 puntos permite al sistema calcular el centro de la herramienta desde ángulos distintos para mayor precisión.',
+  },
+  {
+    question: 'Cuál es el error medio máximo aceptable para una calibración de TCP ideal?',
+    options: ['5.0 mm', '2.5 mm', '1.0 mm', '0.1 mm'],
+    correct: 2,
+    explanation: 'Un error medio menor a 1.0 mm se considera una calibración de herramienta muy precisa.',
+  },
+  {
+    question: 'Qué puntos se deben definir para crear un WorkObject físico?',
+    options: ['Origen, Eje X y Eje Y', 'Solo el Origen', 'Origen y Eje Z', 'Cuatro puntos aleatorios'],
+    correct: 0,
+    explanation: 'El método de 3 puntos requiere el origen (X0,Y0,Z0), un punto en la dirección de X y otro en la dirección de Y.',
+  },
+  {
+    question: 'Cuándo es necesario actualizar los contadores de revolución?',
+    options: ['Cada vez que se apaga el robot', 'Cuando se pierde la sincronización (ej. batería baja)', 'Al cambiar de herramienta', 'Solo una vez al año'],
+    correct: 1,
+    explanation: 'Se debe realizar cuando el robot pierde su posición de calibración, usualmente tras un cambio de batería o pérdida de energía prolongada.',
+  },
+  {
+    question: 'Qué marcas se deben alinear antes de actualizar los contadores?',
+    options: ['Marcas de tiza', 'Marcas físicas (flechas/muescas) en el robot', 'Líneas en la pantalla', 'No se necesitan marcas'],
+    correct: 1,
+    explanation: 'Cada eje tiene marcas físicas (flechas o muescas) que deben estar perfectamente alineadas antes de la sincronización electrónica.',
+  },
+];
+
 export const quizMap: Record<number, QuizQuestion[]> = {
   6: quizMovimientos,
   12: quizCoordenadas,
@@ -393,7 +431,8 @@ export const quizMap: Record<number, QuizQuestion[]> = {
   31: quizTransferencia,
   43: quizExamen,
   49: quizExamenNivel3,
-  51: quizFinal,
+  53: quizFlexPendant,
+  55: quizFinal,
 };
 
 // ---- CODE EXERCISE DATA ----
