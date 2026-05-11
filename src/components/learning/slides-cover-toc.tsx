@@ -26,7 +26,7 @@ export function SlideCover() {
                 Pinnapp
               </h1>
               <p className="text-lg text-white/80 font-medium">
-                Guia Didactica Interactiva de Programacion
+                Guia Didactica Interactiva - Tecnicatura en Robotica
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-2 mt-1">

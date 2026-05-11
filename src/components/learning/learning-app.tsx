@@ -111,6 +111,8 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 31: return <SlideQuizTransferencia />;
     case 32: return <SlideTriangleCenter />;
     case 33: return <SlideDrawingRobot />;
+    case 34: return <QuizView slide={slide} />;
+    case 35: return <SlideAproximacionSegura />; // Reusing this as it fits optimization/safety
     case 36: return <SlideMoveC />;
     case 37: return <SlideOffsExamen />;
     case 38: return <SlideAproximacionSegura />;

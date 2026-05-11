@@ -49,6 +49,8 @@ export const slides: SlideData[] = [
 
   { id: 32, title: 'Centro del Triangulo Equilatero', section: 'Figuras', sectionColor: 'from-[#605DFF] to-[#F43098]', type: 'interactive' },
   { id: 33, title: 'Dibujando con el Robot', section: 'Figuras', sectionColor: 'from-[#605DFF] to-[#F43098]', type: 'code' },
+  { id: 34, title: 'Quiz: Figuras Geométricas', section: 'Figuras', sectionColor: 'from-[#605DFF] to-[#F43098]', type: 'quiz' },
+  { id: 35, title: 'Optimizando Trayectorias', section: 'Figuras', sectionColor: 'from-[#605DFF] to-[#F43098]', type: 'interactive' },
 
   { id: 36, title: 'MoveC - Movimiento Circular', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 37, title: 'Offs() - Desfase de Puntos', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
@@ -64,6 +66,7 @@ export const slides: SlideData[] = [
   { id: 46, title: 'Fase II: Jogging Fluido', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 47, title: 'Fase III: Monitoreo Real', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 48, title: 'Fase IV: Defensa Oral', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
+  { id: 49, title: 'Evaluación: Criterios de Penalización', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'quiz' },
   
   { id: 50, title: 'FlexPendant: Calibración TCP', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'learning' },
   { id: 51, title: 'FlexPendant: Definición de WObj', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'learning' },
@@ -142,6 +145,24 @@ export const quizFlexPendant: QuizQuestion[] = [
   { q: "Cuando actualizar contadores de revolucion?", a: ["Cada vez que se apaga", "Perdida de sincronizacion/bateria", "Cambio de tool", "Anualmente"], c: 1 }
 ];
 
+export const quizFiguras: QuizQuestion[] = [
+  {
+    q: "Si queremos dibujar un triángulo equilátero de lado 100mm, ¿cuál es la altura (h) aproximada que debemos calcular?",
+    a: ["50mm", "86.6mm", "100mm", "70.7mm"],
+    c: 1
+  },
+  {
+    q: "¿Cuál es la principal ventaja de usar la función Offs() para dibujar figuras geométricas?",
+    a: ["Hace que el robot se mueva más rápido", "Permite dibujar la figura completa grabando un solo punto de referencia", "Evita colisiones automáticamente", "Cambia la herramienta (tool) de forma dinámica"],
+    c: 1
+  },
+  {
+    q: "En la instrucción MoveL Offs(P_ref, 20, 0, 10)... ¿Qué significa el valor 10?",
+    a: ["Desfase de 10mm en el eje X", "Desfase de 10mm en el eje Y", "Desfase de 10mm en el eje Z (altura)", "Velocidad de 10mm/s"],
+    c: 2
+  }
+];
+
 export const quizExamenNivel3: QuizQuestion[] = [
   { q: "¿Cuántos puntos de penalización se aplican por exceder el tiempo en la Fase I?", a: ["-5 puntos", "-10 puntos", "-20 puntos", "Reprobación directa"], c: 1 },
   { q: "¿Qué acción causa reprobación directa en el examen práctico?", a: ["Exceder el tiempo", "Colisión leve con la superficie", "Omitir el Deadman / colisión grave", "Error en la calibración del WObj"], c: 2 },
@@ -172,6 +193,7 @@ export const quizMap: Record<number, QuizQuestion[]> = {
   18: quizWorkObjects,
   23: quizCalibracion,
   31: quizTransferencia,
+  34: quizFiguras,
   43: quizExamen,
   49: quizExamenNivel3,
   53: quizFlexPendant,
@@ -214,6 +236,19 @@ export const codeExercises: Record<number, CodeExercise[]> = {
       template: 'MoveL Offs(P1, 0, 0, __B1__), v50, fine, tool1 \\WObj:=wobj_mesa;',
       blanks: [{ id: 'B1', answer: '20', options: ['0', '10', '20', '30'] }],
       hint: 'Tercer parametro de Offs es Z.',
+    }
+  ],
+  33: [
+    {
+      title: 'Dibujando un Triángulo',
+      description: 'Completa la secuencia para dibujar un triángulo usando Offs desde P_centro.',
+      template: 'MoveL Offs(P_centro, 0, __B1__, 0), v100, fine, tool1;\nMoveL Offs(P_centro, __B2__, __B3__, 0), v100, fine, tool1;',
+      blanks: [
+        { id: 'B1', answer: '-57.7', options: ['57.7', '-57.7', '0'] },
+        { id: 'B2', answer: '50', options: ['50', '100', '0'] },
+        { id: 'B3', answer: '28.8', options: ['28.8', '-28.8', '57.7'] },
+      ],
+      hint: 'V1 está a -2*r arriba, V2 y V3 están a +r abajo y +/- L/2 a los lados.',
     }
   ]
 };
