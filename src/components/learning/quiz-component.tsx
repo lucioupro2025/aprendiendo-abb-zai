@@ -25,7 +25,7 @@ export function QuizComponent({ questions, label }: Props) {
   function handleConfirm() {
     if (selected === null) return;
     setConfirmed(true);
-    if (selected === q.correct) setScore((s) => s + 1);
+    if (selected === q.c) setScore((s) => s + 1);
   }
 
   function handleNext() {
@@ -58,8 +58,8 @@ export function QuizComponent({ questions, label }: Props) {
           <div className="text-5xl font-black text-primary">
             {score}/{total}
           </div>
-          <Badge variant={pct >= 60 ? 'default' : 'destructive'} className="text-lg px-4 py-1.5">
-            {pct}% {pct >= 60 ? 'Aprobado' : 'Intentalo de nuevo'}
+          <Badge variant={pct >= 70 ? 'default' : 'destructive'} className="text-lg px-4 py-1.5">
+            {pct}% {pct >= 70 ? 'Aprobado' : 'Sigue practicando'}
           </Badge>
           <Button size="lg" onClick={handleRetry} className="gap-2 mt-4 w-full sm:w-auto h-12 text-lg">
             <RotateCcw className="size-5" />
@@ -83,11 +83,11 @@ export function QuizComponent({ questions, label }: Props) {
 
       <Card className="border-0 shadow-xl bg-card/50">
         <CardContent className="p-6 md:p-8 space-y-6">
-          <p className="font-bold text-xl md:text-2xl leading-tight">{q.question}</p>
+          <p className="font-bold text-xl md:text-2xl leading-tight">{q.q}</p>
 
           <div className="space-y-3">
-            {q.options.map((opt, i) => {
-              const isCorrect = i === q.correct;
+            {q.a.map((opt, i) => {
+              const isCorrect = i === q.c;
               const isSelected = i === selected;
               let bg = 'bg-muted/30 border-transparent hover:border-primary/50';
               if (confirmed) {
@@ -118,10 +118,10 @@ export function QuizComponent({ questions, label }: Props) {
           </div>
 
           {confirmed && (
-            <div className={`p-5 rounded-xl border-l-4 text-base md:text-lg ${selected === q.correct ? 'bg-[#00D390]/10 border-l-[#00D390] text-[#00D390]' : 'bg-destructive/10 border-l-destructive text-destructive'}`}>
+            <div className={`p-5 rounded-xl border-l-4 text-base md:text-lg ${selected === q.c ? 'bg-[#00D390]/10 border-l-[#00D390] text-[#00D390]' : 'bg-destructive/10 border-l-destructive text-destructive'}`}>
               <div className="flex items-start gap-3">
                 <Lightbulb className="size-6 mt-0.5 shrink-0" />
-                <span className="font-medium">{q.explanation}</span>
+                <span className="font-medium italic">Respuesta correcta confirmada</span>
               </div>
             </div>
           )}

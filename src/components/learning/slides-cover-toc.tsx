@@ -31,10 +31,10 @@ export function SlideCover() {
             </div>
             <div className="flex flex-wrap justify-center gap-2 mt-1">
               <Badge className="bg-white/20 text-white hover:bg-white/30 border-0 px-3 py-1">
-                11 Secciones
+                12 Secciones
               </Badge>
               <Badge className="bg-white/20 text-white hover:bg-white/30 border-0 px-3 py-1">
-                9 Quizzes
+                8 Quizzes
               </Badge>
               <Badge className="bg-white/20 text-white hover:bg-white/30 border-0 px-3 py-1">
                 Ejercicios de Codigo

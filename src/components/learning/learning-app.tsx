@@ -28,7 +28,7 @@ import {
   SlideWorkObjects, SlideCreateWorkObject, SlideQuizWorkObjects,
   SlideCreatingPaths, SlideProgramPaths, SlideCalibrationCounter,
   SlideCalibrationSteps, SlideQuizCalibracion, SlideTriangleCenter,
-  SlideDrawingRobot, SlideSummary, SlideQuizFinal,
+  SlideDrawingRobot, SlideSummary,
 } from './slides-rest';
 import {
   SlideTransferIntro, SlideConnection, SlidePermissions,
@@ -44,10 +44,17 @@ import {
   SlideExamenSingularity, SlideExamenCalibracionWObj, SlideExamenJogging,
   SlideExamenMonitoreo, SlideExamenDefensa, SlideExamenPenalizaciones
 } from './slides-examen-nivel3';
-import {
-  SlideTCPCalibration, SlideWObjDefinition, SlideRevCounterUpdate,
-  SlideQuizFlexPendant
+import { 
+  SlideTCPCalibration, 
+  SlideWObjDefinition, 
+  SlideRevCounterUpdate 
 } from './slides-flexpendant';
+import {
+  SlideRSWorkflow,
+  SlideOrientationConfig,
+  SlideSyncSim
+} from './slides-advanced-rs';
+import { QuizView } from './quiz-view';
 
 // ============================================================
 // Helpers
@@ -67,6 +74,8 @@ function getTypeIcon(type: string) {
 // ============================================================
 
 function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id: number) => void }) {
+  const slide = slides.find(s => s.id === slideId) || slides[0];
+  
   switch (slideId) {
     case 0: return <SlideCover />;
     case 1: return <SlideTOC onGoToSlide={onGoToSlide} />;
@@ -119,9 +128,12 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 50: return <SlideTCPCalibration />;
     case 51: return <SlideWObjDefinition />;
     case 52: return <SlideRevCounterUpdate />;
-    case 53: return <SlideQuizFlexPendant />;
-    case 54: return <SlideSummary />;
-    case 55: return <SlideQuizFinal />;
+    case 53: return <QuizView slide={slide} />;
+    case 54: return <SlideRSWorkflow />;
+    case 55: return <SlideOrientationConfig />;
+    case 56: return <SlideSyncSim />;
+    case 57: return <SlideSummary />;
+    case 58: return <QuizView slide={slide} />;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }
@@ -132,7 +144,7 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
 
 function sectionProgress(startId: number, visited: Set<number>): number {
   const next = sections.find((s) => s.startId > startId);
-  const endId = next ? next.startId : slides.length;
+  const endId = next ? next.startId : Math.max(...slides.map(s => s.id)) + 1;
   const sectionSlides = slides.filter((s) => s.id >= startId && s.id < endId && s.section !== '');
   if (sectionSlides.length === 0) return 0;
   return Math.round((sectionSlides.filter((s) => visited.has(s.id)).length / sectionSlides.length) * 100);
@@ -149,17 +161,28 @@ export function LearningApp() {
   const [visited, setVisited] = useState<Set<number>>(new Set([0]));
 
   const total = slides.length;
-  const slide = slides[currentSlide];
+  const slide = slides.find(s => s.id === currentSlide) || slides[0];
   const overallProgress = Math.round((visited.size / total) * 100);
 
   const goTo = useCallback((id: number) => {
-    setCurrentSlide(Math.max(0, Math.min(id, total - 1)));
+    setCurrentSlide(id);
     setVisited((prev) => new Set(prev).add(id));
     setSidebarOpen(false);
-  }, [total]);
+  }, []);
 
-  const goNext = useCallback(() => goTo(currentSlide + 1), [goTo, currentSlide]);
-  const goPrev = useCallback(() => goTo(currentSlide - 1), [goTo, currentSlide]);
+  const goNext = useCallback(() => {
+    const currentIndex = slides.findIndex(s => s.id === currentSlide);
+    if (currentIndex < slides.length - 1) {
+      goTo(slides[currentIndex + 1].id);
+    }
+  }, [goTo, currentSlide]);
+
+  const goPrev = useCallback(() => {
+    const currentIndex = slides.findIndex(s => s.id === currentSlide);
+    if (currentIndex > 0) {
+      goTo(slides[currentIndex - 1].id);
+    }
+  }, [goTo, currentSlide]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -249,7 +272,7 @@ export function LearningApp() {
 
   return (
     <>
-      {/* ===== FIXED: Desktop Sidebar ===== */}
+      {/* ===== Desktop Sidebar ===== */}
       <aside className={`hidden lg:flex flex-col fixed left-0 top-0 bottom-0 z-30 bg-slate-900 text-white transition-all duration-300 ${sidebarW}`}>
         <div className="flex items-center justify-end px-2 py-2">
           <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white hover:bg-slate-800 h-7 w-7"
@@ -272,21 +295,21 @@ export function LearningApp() {
         ) : sidebarContent}
       </aside>
 
-      {/* ===== FIXED: Mobile Header ===== */}
+      {/* ===== Mobile Header ===== */}
       <header className="fixed top-0 left-0 right-0 z-40 flex items-center gap-2 px-3 py-2.5 border-b bg-white/95 backdrop-blur-sm lg:hidden">
         <Button variant="ghost" size="icon" className="shrink-0" onClick={() => setSidebarOpen(true)}>
           <Menu className="size-5" />
         </Button>
         <div className="min-w-0 flex-1">
-          <h1 className="text-sm font-semibold truncate">{slide.title}</h1>
-          {slide.section && <p className="text-xs text-muted-foreground truncate">{slide.section}</p>}
+          <h1 className="text-sm font-semibold truncate">{slide?.title}</h1>
+          {slide?.section && <p className="text-xs text-muted-foreground truncate">{slide.section}</p>}
         </div>
-        {slide.type !== 'cover' && slide.type !== 'toc' && (
-          <Badge variant="secondary" className="gap-1 shrink-0 text-[10px]">{getTypeIcon(slide.type)}</Badge>
+        {slide?.type !== 'cover' && slide?.type !== 'toc' && (
+          <Badge variant="secondary" className="gap-1 shrink-0 text-[10px]">{getTypeIcon(slide?.type || 'content')}</Badge>
         )}
       </header>
 
-      {/* ===== SCROLLABLE: Main Content ===== */}
+      {/* ===== Main Content ===== */}
       <main
         className={`pt-16 pb-16 lg:pt-0 lg:pb-14 min-h-screen lg:min-h-0 transition-[padding,margin] duration-300 ${
           sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-60'
@@ -297,7 +320,7 @@ export function LearningApp() {
         </div>
       </main>
 
-      {/* ===== FIXED: Bottom Nav ===== */}
+      {/* ===== Bottom Nav ===== */}
       <nav
         className={`fixed bottom-0 right-0 z-40 flex items-center justify-between px-3 py-2.5 border-t bg-white/95 backdrop-blur-sm transition-[left] duration-300 left-0 lg:left-auto ${
           sidebarCollapsed ? 'lg:left-16' : 'lg:left-60'
@@ -310,7 +333,7 @@ export function LearningApp() {
             variant="outline"
             size="lg"
             onClick={goPrev}
-            disabled={currentSlide === 0}
+            disabled={slides.findIndex(s => s.id === currentSlide) === 0}
             className="flex-1 md:flex-none gap-2 h-12 text-base font-semibold"
           >
             <ChevronLeft className="size-5" />
@@ -318,7 +341,7 @@ export function LearningApp() {
           </Button>
           <Button
             onClick={goNext}
-            disabled={currentSlide === slides.length - 1}
+            disabled={slides.findIndex(s => s.id === currentSlide) === slides.length - 1}
             className="flex-1 md:flex-none gap-2 h-12 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <span className="hidden sm:inline">Siguiente</span>
@@ -326,18 +349,18 @@ export function LearningApp() {
           </Button>
         </div>
         <div className="hidden md:flex items-center gap-2 px-2">
-          <span className="text-sm font-medium tabular-nums">{currentSlide + 1}</span>
+          <span className="text-sm font-medium tabular-nums">{slides.findIndex(s => s.id === currentSlide) + 1}</span>
           <span className="text-sm text-muted-foreground">/</span>
           <span className="text-sm tabular-nums text-muted-foreground">{total}</span>
           <div className="hidden sm:block w-24 md:w-36">
-            <Progress value={((currentSlide + 1) / total) * 100} className="h-1.5" />
+            <Progress value={((slides.findIndex(s => s.id === currentSlide) + 1) / total) * 100} className="h-1.5" />
           </div>
         </div>
         <div className="flex items-center gap-1.5 flex-1 justify-end">
           <Button variant="ghost" size="icon" className="shrink-0" onClick={() => goTo(0)}>
             <Home className="size-4" />
           </Button>
-          <Button size="sm" onClick={goNext} disabled={currentSlide === total - 1} className="gap-1 shrink-0">
+          <Button size="sm" onClick={goNext} disabled={slides.findIndex(s => s.id === currentSlide) === total - 1} className="gap-1 shrink-0">
             <span className="hidden sm:inline">Siguiente</span>
             <ChevronRight className="size-4" />
           </Button>
