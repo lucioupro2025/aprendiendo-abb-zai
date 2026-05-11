@@ -13,11 +13,11 @@ export function SlideCover() {
           <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-48 h-48 rounded-full bg-white/10 blur-xl" />
 
           <div className="relative z-10 flex flex-col items-center text-center gap-5">
-            <div className="size-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center p-3">
+            <div className="size-64 flex items-center justify-center">
               <img 
                 src="/aprendiendo-abb-zai/logo-pinnapp.png" 
                 alt="Pinnapp Logo" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain mix-blend-screen drop-shadow-2xl"
               />
             </div>
             <div>
