@@ -142,6 +142,14 @@ export const quizFlexPendant: QuizQuestion[] = [
   { q: "Cuando actualizar contadores de revolucion?", a: ["Cada vez que se apaga", "Perdida de sincronizacion/bateria", "Cambio de tool", "Anualmente"], c: 1 }
 ];
 
+export const quizExamenNivel3: QuizQuestion[] = [
+  { q: "¿Cuántos puntos de penalización se aplican por exceder el tiempo en la Fase I?", a: ["-5 puntos", "-10 puntos", "-20 puntos", "Reprobación directa"], c: 1 },
+  { q: "¿Qué acción causa reprobación directa en el examen práctico?", a: ["Exceder el tiempo", "Colisión leve con la superficie", "Omitir el Deadman / colisión grave", "Error en la calibración del WObj"], c: 2 },
+  { q: "¿Cuántos puntos se penalizan por una colisión leve durante el examen?", a: ["-5 puntos", "-10 puntos", "-20 puntos", "-30 puntos"], c: 2 },
+  { q: "¿En qué modo de movimiento debes estar para resolver una singularidad?", a: ["Lineal (MoveL)", "Ejes (Joint)", "Reorientación", "Circular (MoveC)"], c: 1 },
+  { q: "¿Qué comando de verificación confirma que el WorkObject es el correcto durante el monitoreo?", a: ["Menú → Calibration", "Menú → Posición", "Menú → Program Editor", "Menú → Inputs/Outputs"], c: 1 },
+];
+
 export const quizFinal: QuizQuestion[] = [
   { q: "Cuantos ejes de libertad tiene el IRB 1100?", a: ["4", "6", "7", "2"], c: 1 },
   { q: "Controlador del IRB 1100?", a: ["IRC5", "OmniCore", "S4C+", "C5G"], c: 1 },
@@ -165,6 +173,7 @@ export const quizMap: Record<number, QuizQuestion[]> = {
   23: quizCalibracion,
   31: quizTransferencia,
   43: quizExamen,
+  49: quizExamenNivel3,
   53: quizFlexPendant,
   58: quizFinal,
 };

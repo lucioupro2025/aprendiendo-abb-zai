@@ -235,7 +235,7 @@ export function SlideRevCounterUpdate() {
 export function SlideQuizFlexPendant() {
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto h-full flex flex-col justify-center">
-      <QuizComponent questions={quizFlexPendant} title="Evaluación: Operación FlexPendant" />
+      <QuizComponent questions={quizFlexPendant} label="Evaluación: Operación FlexPendant" />
     </div>
   );
 }
