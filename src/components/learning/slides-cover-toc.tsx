@@ -3,21 +3,22 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { sections, slides } from '@/lib/slide-data';
+import { getAssetPath } from '@/lib/utils';
 
 export function SlideCover() {
   return (
     <div className="flex items-center justify-center min-h-[70vh] p-4">
       <div className="w-full max-w-xl">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#605DFF] to-[#00D390] text-white p-8 md:p-12 shadow-2xl">
+        <div className="relative overflow-hidden rounded-2xl bg-slate-900 text-white p-8 md:p-12 shadow-2xl border border-slate-800">
           <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-64 h-64 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-48 h-48 rounded-full bg-white/10 blur-xl" />
 
           <div className="relative z-10 flex flex-col items-center text-center gap-5">
             <div className="size-64 flex items-center justify-center">
               <img 
-                src="/aprendiendo-abb-zai/logo-pinnapp.png" 
+                src={getAssetPath('/logo-pinnapp.png')} 
                 alt="Pinnapp Logo" 
-                className="w-full h-full object-contain mix-blend-screen drop-shadow-2xl"
+                className="w-full h-full object-contain drop-shadow-2xl"
               />
             </div>
             <div>

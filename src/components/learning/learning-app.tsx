@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { slides, sections } from '@/lib/slide-data';
+import { getAssetPath } from '@/lib/utils';
 
 // Slide components
 import { SlideCover, SlideTOC } from './slides-cover-toc';
@@ -176,9 +177,9 @@ export function LearningApp() {
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-5">
         <img 
-          src="/aprendiendo-abb-zai/logo-pinnapp.png" 
+          src={getAssetPath('/logo-pinnapp.png')} 
           alt="Pinnapp" 
-          className="size-10 object-contain shrink-0 mix-blend-screen" 
+          className="size-10 object-contain shrink-0" 
         />
         <div className="min-w-0">
           <h2 className="text-base font-bold text-white truncate">Pinnapp</h2>
