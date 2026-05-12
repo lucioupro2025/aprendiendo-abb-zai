@@ -78,7 +78,8 @@ export const slides: SlideData[] = [
   { id: 56, title: 'Sincronización RS', section: 'Avanzado', sectionColor: 'from-purple-500 to-blue-500', type: 'learning' },
   
   { id: 57, title: 'Resumen del Curso', section: 'Final', sectionColor: 'from-slate-800 to-slate-950', type: 'learning' },
-  { id: 58, title: 'Examen Final', section: 'Final', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' }
+  { id: 58, title: 'Examen Final', section: 'Final', sectionColor: 'from-slate-800 to-slate-950', type: 'quiz' },
+  { id: 59, title: 'Laboratorio de Transferencia', section: 'Transferencia', sectionColor: 'from-[#F43098] to-[#00D390]', type: 'interactive' }
 ];
 
 export const sections = [

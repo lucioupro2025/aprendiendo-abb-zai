@@ -56,6 +56,8 @@ import {
 } from './slides-advanced-rs';
 import { QuizView } from './quiz-view';
 
+import RobotTransferSimulator from '@/components/interactive/RobotTransferSimulator';
+
 // ============================================================
 // Helpers
 // ============================================================
@@ -136,6 +138,7 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 56: return <SlideSyncSim />;
     case 57: return <SlideSummary />;
     case 58: return <QuizView slide={slide} />;
+    case 59: return <div className="h-[700px] w-full max-w-6xl mx-auto"><RobotTransferSimulator /></div>;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }
