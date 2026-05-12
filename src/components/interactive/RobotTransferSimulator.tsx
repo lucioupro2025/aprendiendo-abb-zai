@@ -248,14 +248,10 @@ export default function RobotTransferSimulator() {
                       </Button>
                       <Button 
                         variant={isDeadmanPressed ? "default" : "outline"} 
-                        className={`h-9 text-[10px] select-none touch-none ${isDeadmanPressed ? "bg-blue-600" : "border-zinc-700"}`}
-                        onMouseDown={() => setIsDeadmanPressed(true)}
-                        onMouseUp={() => setIsDeadmanPressed(false)}
-                        onMouseLeave={() => setIsDeadmanPressed(false)}
-                        onTouchStart={(e) => { e.preventDefault(); setIsDeadmanPressed(true); }}
-                        onTouchEnd={() => setIsDeadmanPressed(false)}
+                        className={`h-9 text-[10px] ${isDeadmanPressed ? "bg-blue-600" : "border-zinc-700"}`}
+                        onClick={() => setIsDeadmanPressed(!isDeadmanPressed)}
                       >
-                        <Hand className="w-3 h-3 mr-1" /> Deadman
+                        <Hand className="w-3 h-3 mr-1" /> Deadman {isDeadmanPressed ? "ON" : "OFF"}
                       </Button>
                     </div>
                     <Button 
