@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { slides, sections } from '@/lib/slide-data';
 import { getAssetPath } from '@/lib/utils';
 
@@ -57,6 +58,7 @@ import {
 import { QuizView } from './quiz-view';
 
 import RobotTransferSimulator from '@/components/interactive/RobotTransferSimulator';
+import RapidTrazadoSimulator from '@/components/interactive/RapidTrazadoSimulator';
 
 // ============================================================
 // Helpers
@@ -139,6 +141,7 @@ function SlideView({ slideId, onGoToSlide }: { slideId: number; onGoToSlide: (id
     case 57: return <SlideSummary />;
     case 58: return <QuizView slide={slide} />;
     case 59: return <div className="h-[700px] w-full max-w-6xl mx-auto"><RobotTransferSimulator /></div>;
+    case 60: return <div className="h-[700px] w-full max-w-7xl mx-auto"><RapidTrazadoSimulator /></div>;
     default: return <div className="p-8 text-center text-muted-foreground">Diapositiva no encontrada</div>;
   }
 }
@@ -164,15 +167,43 @@ export function LearningApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [visited, setVisited] = useState<Set<number>>(new Set([0]));
+  
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const total = slides.length;
   const slide = slides.find(s => s.id === currentSlide) || slides[0];
   const overallProgress = Math.round((visited.size / total) * 100);
 
+  // Sync state with URL query param on mount and when URL changes
+  useEffect(() => {
+    const slideId = searchParams.get('slide');
+    if (slideId) {
+      const id = parseInt(slideId, 10);
+      if (!isNaN(id) && slides.some(s => s.id === id)) {
+        // Only update if different to avoid loops
+        setCurrentSlide(prev => {
+          if (prev !== id) return id;
+          return prev;
+        });
+        setVisited(prev => {
+           if (prev.has(id)) return prev;
+           return new Set(prev).add(id);
+        });
+      }
+    }
+  }, [searchParams]);
+
   const goTo = useCallback((id: number) => {
     setCurrentSlide(id);
     setVisited((prev) => new Set(prev).add(id));
     setSidebarOpen(false);
+    
+    // Update URL without full reload using window.history for more stability in dev
+    const params = new URLSearchParams(window.location.search);
+    params.set('slide', id.toString());
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
   }, []);
 
   const goNext = useCallback(() => {

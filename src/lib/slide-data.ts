@@ -67,6 +67,7 @@ export const slides: SlideData[] = [
   { id: 47, title: 'Fase III: Monitoreo Real', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 48, title: 'Fase IV: Defensa Oral', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   { id: 49, title: 'Evaluación: Criterios de Penalización', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'quiz' },
+  { id: 60, title: 'Simulador: Práctica de Trazado', section: 'Examen', sectionColor: 'from-[#F43098] to-[#605DFF]', type: 'interactive' },
   
   { id: 50, title: 'FlexPendant: Calibración TCP', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'learning' },
   { id: 51, title: 'FlexPendant: Definición de WObj', section: 'FlexPendant', sectionColor: 'from-[#605DFF] to-[#00D390]', type: 'learning' },
